@@ -3,8 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { StatusBar } from "expo-status-bar";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
-import rootReducer from "./src/store/rootReducer";
 import { PersistGate } from "redux-persist/integration/react";
+import rootReducer from "./src/store/RootReducer";
 
 export const store = configureStore({
   reducer: rootReducer,
