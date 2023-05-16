@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { Account, Token, User } from "../../types/Account";
-import { fetchLogin, fetchRegister } from "../../Repositories/AccountRepository";
+import { fetchLogin, fetchRegister } from "../../repositories/AccountRepository";
 
 interface InitialState {
   account: Account;
