@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { SvgXml } from "react-native-svg";
+import { commonPosition } from "../../styles/common";
 
 interface Props {
   xml: string;
@@ -9,7 +10,7 @@ interface Props {
 
 const BtnSvg = ({ xml, onPress }: Props): ReactElement => {
   return (
-    <TouchableOpacity onPress={onPress} style={[style.container]}>
+    <TouchableOpacity onPress={onPress} style={[style.container, commonPosition.centering]}>
       <SvgXml xml={xml} />
     </TouchableOpacity>
   );
@@ -17,7 +18,7 @@ const BtnSvg = ({ xml, onPress }: Props): ReactElement => {
 
 const style = StyleSheet.create({
   container: {
-    marginRight: "10%",
+    marginRight: "15%",
   },
 });
 

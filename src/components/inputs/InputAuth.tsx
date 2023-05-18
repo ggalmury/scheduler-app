@@ -50,15 +50,15 @@ const InputAuth = ({ placeholder, isPassword, svgSource }: Props): ReactElement 
   return (
     <Animated.View style={[style.container, animatedStyle]}>
       <View style={[style.svgBox, commonPosition.centering]}>
-        <SvgXml xml={svgStructure(24, svgSource)} />
+        <SvgXml xml={svgStructure(24, 24, svgSource)} />
       </View>
       <View style={[style.inputBox]}>
         <TextInput style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} secureTextEntry={isSecureTextEntry} />
       </View>
       {isPassword && (
-        <TouchableOpacity style={[style.svgBox, commonPosition.centering]}>
-          <SvgXml xml={svgStructure(24, visibleDraw)} onPressIn={() => setIsSecureTextEntry(false)} onPressOut={() => setIsSecureTextEntry(true)} />
-        </TouchableOpacity>
+        <View style={[style.svgBox, commonPosition.centering]}>
+          <SvgXml xml={svgStructure(24, 24, visibleDraw)} onPressIn={() => setIsSecureTextEntry(false)} onPressOut={() => setIsSecureTextEntry(true)} />
+        </View>
       )}
     </Animated.View>
   );

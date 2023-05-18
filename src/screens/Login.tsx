@@ -4,7 +4,7 @@ import { commonBackgroundColor, commonFontColor } from "../styles/common";
 import Constants from "expo-constants";
 import { isAndroid, svgStructure } from "../utils/helper";
 import BtnSvg from "../components/buttons/BtnSvg";
-import { emailDraw, facebookDraw, googleDraw, passwordDraw } from "../utils/SvgSources";
+import { appleDraw, emailDraw, facebookDraw, googleDraw, passwordDraw } from "../utils/SvgSources";
 import InputAuth from "../components/inputs/InputAuth";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 
@@ -20,9 +20,9 @@ const Login = (): ReactElement => {
           <Text style={[style.intro2, commonFontColor.grey]}>Create account to continue!</Text>
         </View>
         <View style={[style.socialLoginBox]}>
-          <BtnSvg xml={svgStructure(35, googleDraw)} onPress={() => {}} />
-          <BtnSvg xml={svgStructure(35, facebookDraw)} onPress={() => {}} />
-          <BtnSvg xml={svgStructure(35, facebookDraw)} onPress={() => {}} />
+          <BtnSvg xml={svgStructure(40, 16, googleDraw)} onPress={() => {}} />
+          <BtnSvg xml={svgStructure(40, 16, facebookDraw)} onPress={() => {}} />
+          <BtnSvg xml={svgStructure(40, 16, appleDraw)} onPress={() => {}} />
         </View>
         <View style={[style.inputBox]}>
           <InputAuth placeholder="email" svgSource={emailDraw} />
