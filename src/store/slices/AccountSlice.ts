@@ -7,6 +7,7 @@ interface InitialState {
   account: Account;
   token: Token;
   isLoading: boolean;
+  isLoggedIn: boolean;
 }
 
 const initialState: InitialState = {
@@ -25,6 +26,7 @@ const initialState: InitialState = {
     refreshToken: "",
   },
   isLoading: false,
+  isLoggedIn: false,
 };
 
 const accountSlice = createSlice({
@@ -44,6 +46,7 @@ const accountSlice = createSlice({
 
         state.account = user.account;
         state.token = user.token;
+        state.isLoggedIn = true;
       });
   },
 });

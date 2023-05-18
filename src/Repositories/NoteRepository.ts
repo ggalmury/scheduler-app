@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
-import { SERVERPATH } from "../utils/constant";
+import { SERVERPATH } from "../utils/constants/global";
 import { Note } from "../types/Note";
 
 export const fetchNoteList = createAsyncThunk(`${SERVERPATH}/api/notelist`, async (): Promise<Note[]> => {
