@@ -4,24 +4,27 @@ import { commonBackgroundColor, commonFontColor, commonPosition } from "../../st
 
 interface Props {
   name: string;
+  backgroundColor: string;
+  color: string;
 }
 
-const BtnSubmit = ({ name }: Props): ReactElement => {
+const BtnSubmit = ({ name, backgroundColor, color }: Props): ReactElement => {
   return (
-    <TouchableOpacity style={[style.container, commonBackgroundColor.skyblue, commonPosition.centering]}>
-      <Text style={[style.buttonName, commonFontColor.white]}>{name}</Text>
+    <TouchableOpacity style={[style.container, commonPosition.centering, { backgroundColor }]}>
+      <Text style={[style.buttonName, { color }]}>{name}</Text>
     </TouchableOpacity>
   );
 };
 
 const style = StyleSheet.create({
   container: {
-    height: 60,
-    borderRadius: 50,
+    width: 250,
+    height: 45,
+    borderRadius: 10,
   },
   buttonName: {
     fontFamily: "poppinsBold",
-    fontSize: 18,
+    fontSize: 14,
   },
 });
 export default BtnSubmit;

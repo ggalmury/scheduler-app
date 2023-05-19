@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { Account, Token, User } from "../../types/Account";
-import { fetchLogin, fetchRegister } from "../../repositories/AccountRepository";
+import { fetchLogin } from "../../repositories/AccountRepository";
 
 interface InitialState {
   account: Account;
@@ -29,10 +29,20 @@ const initialState: InitialState = {
   isLoggedIn: false,
 };
 
-const accountSlice = createSlice({
+const memberSlice = createSlice({
   name: "account",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      Object.assign(state, initialState);
+    },
+    truely: (state) => {
+      state.isLoggedIn = true;
+    },
+    falsely: (state) => {
+      state.isLoggedIn = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchLogin.pending, (state) => {
@@ -51,5 +61,5 @@ const accountSlice = createSlice({
   },
 });
 
-export const {} = accountSlice.actions;
-export default accountSlice.reducer;
+export const { reset, truely, falsely } = memberSlice.actions;
+export default memberSlice.reducer;

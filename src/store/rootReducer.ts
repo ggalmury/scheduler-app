@@ -2,10 +2,10 @@ import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import persistConfig from "./PersistConfig";
 import NoteSlice from "./slices/NoteSlice";
-import AccountSlice from "./slices/AccountSlice";
+import MemberSlice from "./slices/MemberSlice";
 
 const rootReducer = combineReducers({
-  account: AccountSlice,
+  member: MemberSlice,
   note: NoteSlice,
 });
 
