@@ -4,15 +4,16 @@ import { commonPosition } from "../../styles/common";
 import { SvgXml } from "react-native-svg";
 import { visibleDraw } from "../../utils/SvgSources";
 import { svgStructure } from "../../utils/helper";
-import { COLOR_IVORY, COLOR_SKYBLUE, COLOR_WHITE } from "../../utils/constants/styles";
+import { COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_WHITE } from "../../utils/constants/styles";
 
 interface Props {
   placeholder?: string;
   isPassword?: boolean;
-  svgSource: string;
+  svg: string;
+  onChangeText: (t: any) => void;
 }
 
-const InputAuth = ({ placeholder, isPassword, svgSource }: Props): ReactElement => {
+const InputAuth = ({ placeholder, isPassword, svg, onChangeText }: Props): ReactElement => {
   const [isSecureTextEntry, setIsSecureTextEntry] = useState<boolean>(isPassword ? true : false);
   const animationObj = useRef<Animated.Value>(new Animated.Value(0)).current;
 
@@ -23,7 +24,7 @@ const InputAuth = ({ placeholder, isPassword, svgSource }: Props): ReactElement 
     }),
     borderColor: animationObj.interpolate({
       inputRange: [0, 1],
-      outputRange: ["transparent", COLOR_SKYBLUE],
+      outputRange: ["transparent", COLOR_INDIGO],
     }),
     backgroundColor: animationObj.interpolate({
       inputRange: [0, 1],
@@ -50,10 +51,10 @@ const InputAuth = ({ placeholder, isPassword, svgSource }: Props): ReactElement 
   return (
     <Animated.View style={[style.container, animatedStyle]}>
       <View style={[style.svgBox, commonPosition.centering]}>
-        <SvgXml xml={svgStructure(24, 24, svgSource)} />
+        <SvgXml xml={svg} />
       </View>
       <View style={[style.inputBox]}>
-        <TextInput style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} secureTextEntry={isSecureTextEntry} />
+        <TextInput style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
       </View>
       {isPassword && (
         <View style={[style.svgBox, commonPosition.centering]}>
@@ -82,10 +83,6 @@ const style = StyleSheet.create({
     height: "80%",
     fontSize: 14,
     fontFamily: "poppinsRegular",
-  },
-  whenFocused: {
-    borderWidth: 2,
-    borderColor: COLOR_SKYBLUE,
   },
 });
 

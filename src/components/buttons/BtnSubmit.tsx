@@ -6,11 +6,12 @@ interface Props {
   name: string;
   backgroundColor: string;
   color: string;
+  onPress: () => void;
 }
 
-const BtnSubmit = ({ name, backgroundColor, color }: Props): ReactElement => {
+const BtnSubmit = ({ name, backgroundColor, color, onPress }: Props): ReactElement => {
   return (
-    <TouchableOpacity style={[style.container, commonPosition.centering, { backgroundColor }]}>
+    <TouchableOpacity style={[style.container, commonPosition.centering, { backgroundColor }]} onPress={onPress}>
       <Text style={[style.buttonName, { color }]}>{name}</Text>
     </TouchableOpacity>
   );

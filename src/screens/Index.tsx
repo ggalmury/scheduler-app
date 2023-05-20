@@ -1,25 +1,30 @@
 import React, { ReactElement } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
-import { commonBackgroundColor, commonFontColor, commonPosition } from "../styles/common";
-import Constants from "expo-constants";
-import { isAndroid, svgStructure } from "../utils/helper";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { commonFontColor, commonPosition } from "../styles/common";
+import { svgStructure } from "../utils/helper";
 import { facebookDraw, googleDraw, kakaoDraw, naverDraw } from "../utils/SvgSources";
 import BtnSocialLogin from "../components/buttons/BtnSocialLogin";
 import { COLOR_BLACK, COLOR_FACEBOOK, COLOR_INDIGO, COLOR_IVORY, COLOR_KAKAO, COLOR_NAVER, COLOR_WHITE } from "../utils/constants/styles";
 import BtnSubmit from "../components/buttons/BtnSubmit";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+
 import { RootStackParams } from "./Navigation";
 
 const Index = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const image: any = require("../../assets/images/time.png");
 
+  const gotoLogin = (): void => {
+    navigation.navigate("Login");
+  };
+
+  const gotoRegister = (): void => {
+    navigation.navigate("RegisterF");
+  };
+
   return (
-    <SafeAreaView style={[style.container, commonBackgroundColor.white]}>
-      <View style={[style.header, commonPosition.centering]}>
-        <Text style={[style.title]}>Schedy</Text>
-      </View>
+    <SafeAreaView style={[style.container]}>
       <View style={[style.article, commonPosition.centering]}>
         <Image source={image} style={[style.image]} />
         <Text style={[style.description, commonFontColor.black]}>소중한 시간을 기록하러 떠나볼까요?</Text>
@@ -27,8 +32,8 @@ const Index = (): ReactElement => {
       </View>
       <View style={[style.body]}>
         <View style={[style.loginOptionBox]}>
-          <BtnSubmit name="이메일로 로그인" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} />
-          <BtnSubmit name="회원가입" backgroundColor={COLOR_IVORY} color={COLOR_BLACK} />
+          <BtnSubmit name="이메일로 로그인" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoLogin} />
+          <BtnSubmit name="회원가입" backgroundColor={COLOR_IVORY} color={COLOR_BLACK} onPress={gotoRegister} />
         </View>
         <View style={[style.socialLoginBox, commonPosition.centering]}>
           <BtnSocialLogin
@@ -53,10 +58,6 @@ const Index = (): ReactElement => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: isAndroid() ? Constants.statusBarHeight : 0,
-  },
-  header: {
-    height: 40,
   },
   article: {
     flex: 1,

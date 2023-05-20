@@ -21,13 +21,13 @@ const Entry = (): ReactElement => {
 
   useEffect(() => {
     setTimeout(() => {
-      isLoggedIn ? navigation.navigate("Home") : navigation.navigate("Index");
+      isLoggedIn ? navigation.replace("Home") : navigation.replace("Index");
     }, 1500);
   }, []);
 
   return (
     <View style={[style.container, commonPosition.centering, commonBackgroundColor.indigo]}>
-      <Text style={[style.title, commonFontColor.white]}>SCHEDY</Text>
+      <Text style={[style.title, commonFontColor.white]}> SCHEDY </Text>
     </View>
   );
 };
@@ -37,7 +37,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 50,
+    fontSize: 40,
   },
 });
 export default Entry;

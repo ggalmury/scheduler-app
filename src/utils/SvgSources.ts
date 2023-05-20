@@ -13,11 +13,50 @@ export const kakaoDraw: string = `<path fill="#351D1C" d="M255.5 48C299.345 48 3
 // vb: 512
 export const naverDraw: string = `<path fill="#ffffff" d="M9 32V480H181.366V255.862L331.358 480H504V32H331.358V255.862L181.366 32H9Z" />`;
 
+// vb: 24
 export const emailDraw: string = `<path d="M3 5H21V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V5Z" stroke="#292929" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
 <path d="M3 5L12 14L21 5" stroke="#292929" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>`;
 
-export const passwordDraw: string = `<path d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10" stroke="#292929" strokeWidth="2.5" strokeLinecap="round"/>
+// vb: 24
+export const lockOnDraw: string = `<path d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10" stroke="#292929" strokeWidth="2.5" strokeLinecap="round"/>
 <path d="M5 10H19V19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19V10Z" stroke="#292929" strokeWidth="2.5" strokeLinejoin="round"/>`;
 
+export const lockOffDraw: string = `<path d="M8 10V7C8 4.79086 9.79086 3 12 3C13.8638 3 15.4299 4.27477 15.874 6" stroke="#292929" strokeWidth="2.5" strokeLinecap="round"/>
+<path d="M5 10H19V19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19V10Z" stroke="#292929" strokeWidth="2.5" strokeLinejoin="round"/>`;
+
+// vb: 24
 export const visibleDraw: string = `<path d="M10.7302 5.07319C11.1448 5.02485 11.5684 5 11.9999 5C16.6639 5 20.3998 7.90264 21.9999 12C21.6053 13.0104 21.0809 13.9482 20.4446 14.7877M6.51956 6.51944C4.47949 7.76406 2.90105 9.69259 1.99994 12C3.60008 16.0974 7.33597 19 11.9999 19C14.0375 19 15.8979 18.446 17.4805 17.4804M9.87871 9.87859C9.33576 10.4215 8.99994 11.1715 8.99994 12C8.99994 13.6569 10.3431 15 11.9999 15C12.8284 15 13.5785 14.6642 14.1214 14.1212" stroke="#292929" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
 <path d="M4 4L20 20" stroke="#292929" strokeWidth="2.5" strokeLinecap="round"/>`;
+
+// vb: 24
+export const personDraw: string = `<g clip-path="url(#clip0_429_11217)">
+<path d="M4 18C4 15.7908 5.79086 14 8 14H16C18.2091 14 20 15.7908 20 18V18C20 19.1045 19.1046 20 18 20H6C4.89543 20 4 19.1045 4 18V18Z" stroke="#292929" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="12" cy="6.99997" r="3" stroke="#292929" stroke-width="2.5"/>
+</g>
+<defs>
+<clipPath id="clip0_429_11217">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;
+
+// vb: 24
+export const arrowDownDraw: string = `<g clip-path="url(#clip0_429_11251)">
+<path d="M7 10L12 15" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 15L17 10" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_429_11251">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;
+
+// vb: 24
+export const arrowUpDraw: string = `<g clip-path="url(#clip0_429_11224)">
+<path d="M17 14L12 9" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 9L7 14" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_429_11224">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;
