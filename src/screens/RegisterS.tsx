@@ -1,20 +1,24 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import InputAuth from "../components/inputs/InputAuth";
 import { svgStructure } from "../utils/helper";
 import { personDraw } from "../utils/SvgSources";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParams } from "./Navigation";
-import { useNavigation } from "@react-navigation/native";
 import { useInput } from "../hooks/useInput";
 import PickerJob from "../components/buttons/picker/PickerJob";
+import { JobType } from "../types/Account";
+import PickerDate from "../components/buttons/picker/PickerDate";
 
 const RegisterS = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
 
   const [name, setName, rsetName] = useInput<string>("");
+  const [date, setDate] = useState<Date>(new Date());
+  const [job, setJob] = useState<JobType | null>(null);
 
   const gotoIndex = () => {
     navigation.reset({ index: 0, routes: [{ name: "Index" }] });
@@ -27,7 +31,8 @@ const RegisterS = (): ReactElement => {
       </View>
       <View style={[style.body]}>
         <InputAuth placeholder="이름" isPassword={false} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} />
-        <PickerJob />
+        <PickerDate date={date} setDate={setDate} />
+        <PickerJob job={job} setJob={setJob} />
       </View>
       <View style={[style.footer]}>
         <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoIndex} />
