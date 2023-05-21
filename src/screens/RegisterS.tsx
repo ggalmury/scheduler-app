@@ -8,7 +8,6 @@ import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParams } from "./Navigation";
 import { useNavigation } from "@react-navigation/native";
-import DropDownPicker from "react-native-dropdown-picker";
 import { useInput } from "../hooks/useInput";
 import PickerJob from "../components/buttons/picker/PickerJob";
 
