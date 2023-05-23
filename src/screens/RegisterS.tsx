@@ -1,7 +1,8 @@
 import React, { ReactElement, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 import InputAuth from "../components/inputs/InputAuth";
 import { svgStructure } from "../utils/helper";
 import { personDraw } from "../utils/SvgSources";
@@ -9,19 +10,32 @@ import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
-import PickerJob from "../components/buttons/picker/PickerJob";
+import PickerJob from "../components/picker/PickerJob";
 import { JobType } from "../types/Account";
-import PickerDate from "../components/buttons/picker/PickerDate";
+import PickerDate from "../components/picker/PickerDate";
+import { RegisterRequest } from "../types/Request";
+import { tryRegister } from "../controllers/Auth/RegisterController";
 
 const RegisterS = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+  const route = useRoute();
+
+  const { email, password } = route.params as any;
 
   const [name, setName, rsetName] = useInput<string>("");
-  const [date, setDate] = useState<Date>(new Date());
+  const [birth, setBirth] = useState<Date | null>(null);
   const [job, setJob] = useState<JobType | null>(null);
 
-  const gotoIndex = () => {
-    navigation.reset({ index: 0, routes: [{ name: "Index" }] });
+  const registerDone = async () => {
+    const registerRequest: RegisterRequest = {
+      email,
+      password,
+      name,
+      birth: birth!,
+      job: job!,
+    };
+
+    await tryRegister(registerRequest, navigation);
   };
 
   return (
@@ -31,11 +45,11 @@ const RegisterS = (): ReactElement => {
       </View>
       <View style={[style.body]}>
         <InputAuth placeholder="이름" isPassword={false} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} />
-        <PickerDate date={date} setDate={setDate} />
+        <PickerDate date={birth} setDate={setBirth} />
         <PickerJob job={job} setJob={setJob} />
       </View>
       <View style={[style.footer]}>
-        <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoIndex} />
+        <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={registerDone} />
       </View>
     </View>
   );

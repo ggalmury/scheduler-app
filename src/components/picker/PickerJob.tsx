@@ -1,10 +1,11 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Modal } from "react-native";
-import { commonBackgroundColor, commonPosition } from "../../../styles/common";
+import React, { ReactElement, useState } from "react";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { commonBackgroundColor, commonPosition } from "../../styles/common";
 import { SvgXml } from "react-native-svg";
-import { svgStructure } from "../../../utils/helper";
-import { arrowDownDraw, arrowUpDraw, emailDraw } from "../../../utils/SvgSources";
-import { Job, JobType } from "../../../types/Account";
+import { svgStructure } from "../../utils/helper";
+import { arrowDownDraw, arrowUpDraw, workDraw } from "../../utils/SvgSources";
+import { Job, JobType } from "../../types/Account";
+import { commonInput } from "../../styles/input";
 
 interface Props {
   job: JobType | null;
@@ -19,13 +20,6 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
     { label: "보기3", value: Job.FREELANCER },
     { label: "보기4", value: Job.JOBAPP },
     { label: "보기5", value: Job.NONE },
-    { label: "보기6", value: Job.PRIVATE },
-    { label: "보기1", value: Job.STUDENT },
-    { label: "보기2", value: Job.WORKER },
-    { label: "보기3", value: Job.FREELANCER },
-    { label: "보기4", value: Job.JOBAPP },
-    { label: "보기5", value: Job.NONE },
-    { label: "보기6", value: Job.PRIVATE },
   ];
 
   const dropdownToggle = (): void => {
@@ -38,9 +32,9 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
   };
 
   return (
-    <TouchableOpacity style={[style.container, commonBackgroundColor.ivory]} onPress={dropdownToggle}>
+    <TouchableOpacity style={[style.container, commonInput.authContainer, commonBackgroundColor.ivory]} onPress={dropdownToggle}>
       <View style={[style.svgBox, commonPosition.centering]}>
-        <SvgXml xml={svgStructure(24, 24, emailDraw)} />
+        <SvgXml xml={svgStructure(24, 24, workDraw)} />
       </View>
       <View style={[style.textBox]}>
         <Text>{job ? job : "직업이 무엇인가요?"}</Text>
@@ -63,9 +57,6 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
 
 const style = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    height: 55,
-    borderRadius: 25,
     position: "relative",
   },
   svgBox: {

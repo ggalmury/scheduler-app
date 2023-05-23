@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from "moment";
-import { Account, Token, User } from "../../types/Account";
+import { Account, Job, Token, Member } from "../../types/Account";
 import { fetchLogin } from "../../repositories/AccountRepository";
 
 interface InitialState {
@@ -12,14 +11,11 @@ interface InitialState {
 
 const initialState: InitialState = {
   account: {
-    uuid: "",
     email: "",
-    password: "",
     name: "",
-    tel: "",
-    birth: moment(),
-    meds: [],
-    createdDt: moment(),
+    job: Job.NONE,
+    birth: new Date(),
+    createdDt: new Date(),
   },
   token: {
     accessToken: "",
@@ -52,10 +48,10 @@ const memberSlice = createSlice({
         // TODO: implement error alert
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
-        const user: User = action.payload;
+        const member: Member = action.payload;
 
-        state.account = user.account;
-        state.token = user.token;
+        state.account = member.account;
+        state.token = member.token;
         state.isLoggedIn = true;
       });
   },

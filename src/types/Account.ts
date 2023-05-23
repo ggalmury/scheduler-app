@@ -1,14 +1,9 @@
-import moment from "moment";
-
 export interface Account {
-  uuid: string;
   email: string;
-  password: string;
   name: string;
-  tel: string;
-  birth: moment.Moment;
-  meds: string[];
-  createdDt: moment.Moment;
+  job: JobType;
+  birth: Date;
+  createdDt: Date;
 }
 
 export interface Token {
@@ -16,7 +11,7 @@ export interface Token {
   refreshToken: string;
 }
 
-export interface User {
+export interface Member {
   account: Account;
   token: Token;
 }

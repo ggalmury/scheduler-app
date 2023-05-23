@@ -1,4 +1,4 @@
-import moment from "moment";
+import { JobType } from "./Account";
 
 export interface LoginRequest {
   email: string;
@@ -9,6 +9,6 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
-  tel: string;
-  birth: moment.Moment;
+  birth: Date;
+  job: JobType;
 }

@@ -1,10 +1,11 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Animated, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Animated, StyleSheet, TextInput, View } from "react-native";
 import { commonPosition } from "../../styles/common";
 import { SvgXml } from "react-native-svg";
 import { visibleDraw } from "../../utils/SvgSources";
 import { svgStructure } from "../../utils/helper";
-import { COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_WHITE } from "../../utils/constants/styles";
+import { COLOR_INDIGO, COLOR_IVORY, COLOR_WHITE } from "../../utils/constants/styles";
+import { commonInput } from "../../styles/input";
 
 interface Props {
   placeholder?: string;
@@ -49,12 +50,12 @@ const InputAuth = ({ placeholder, isPassword, svg, onChangeText }: Props): React
   };
 
   return (
-    <Animated.View style={[style.container, animatedStyle]}>
+    <Animated.View style={[commonInput.authContainer, animatedStyle]}>
       <View style={[style.svgBox, commonPosition.centering]}>
         <SvgXml xml={svg} />
       </View>
       <View style={[style.inputBox]}>
-        <TextInput style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
+        <TextInput autoCapitalize="none" style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
       </View>
       {isPassword && (
         <View style={[style.svgBox, commonPosition.centering]}>
@@ -66,11 +67,6 @@ const InputAuth = ({ placeholder, isPassword, svg, onChangeText }: Props): React
 };
 
 const style = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    height: 55,
-    borderRadius: 25,
-  },
   svgBox: {
     width: "20%",
   },

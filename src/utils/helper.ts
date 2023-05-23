@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import { Note, NoteMap } from "../types/Note";
+import moment from "moment";
 
 export const isAndroid = (): boolean => {
   return Platform.OS === "android";
@@ -21,4 +22,9 @@ export const convertNoteListToMap = (noteList: Note[]): NoteMap => {
   });
 
   return noteMap;
+};
+
+export const dateToYMD = (date: Date): string => {
+  const formatted: string = moment(date).format("YYYY-MM-DD");
+  return formatted;
 };

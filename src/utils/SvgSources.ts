@@ -60,3 +60,20 @@ export const arrowUpDraw: string = `<g clip-path="url(#clip0_429_11224)">
 <rect width="24" height="24" fill="white"/>
 </clipPath>
 </defs>`;
+
+// vb: 24
+export const giftDraw: string = `<g clip-path="url(#clip0_429_11037)">
+<path d="M4 11V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V11" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6 4.5C6 3.11929 7.11929 2 8.5 2V2C10.433 2 12 3.567 12 5.5V7H8.5C7.11929 7 6 5.88071 6 4.5V4.5Z" stroke="#292929" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M18 4.5C18 3.11929 16.8807 2 15.5 2V2C13.567 2 12 3.567 12 5.5V7H15.5C16.8807 7 18 5.88071 18 4.5V4.5Z" stroke="#292929" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M3 7H21V11H3V7Z" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 11V21" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_429_11037">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;
+
+// vb: 24
+export const workDraw: string = `<path d="M4 12H3V8C3 6.89543 3.89543 6 5 6H9M4 12V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V12M4 12H10M20 12H21V8C21 6.89543 20.1046 6 19 6H15M20 12H14M14 12V10H10V12M14 12V14H10V12M9 6V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V6M9 6H15" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>`;

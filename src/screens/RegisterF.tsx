@@ -10,6 +10,7 @@ import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
+import { tryAccountValidate } from "../controllers/Auth/RegisterController";
 
 const RegisterF = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -18,8 +19,8 @@ const RegisterF = (): ReactElement => {
   const [password, setPassword, rsetPassword] = useInput<string>("");
   const [passwordVerify, setPasswordVerify, rsetPasswordVerify] = useInput<string>("");
 
-  const gotoRegisterS = (): void => {
-    navigation.navigate("RegisterS");
+  const gotoRegisterS = async (): Promise<void> => {
+    await tryAccountValidate(email, password, passwordVerify, navigation);
   };
 
   return (
