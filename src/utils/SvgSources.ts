@@ -77,3 +77,15 @@ export const giftDraw: string = `<g clip-path="url(#clip0_429_11037)">
 
 // vb: 24
 export const workDraw: string = `<path d="M4 12H3V8C3 6.89543 3.89543 6 5 6H9M4 12V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V12M4 12H10M20 12H21V8C21 6.89543 20.1046 6 19 6H15M20 12H14M14 12V10H10V12M14 12V14H10V12M9 6V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V6M9 6H15" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>`;
+
+// vb: 24
+export const circleXDraw: string = `<g clip-path="url(#clip0_429_11081)">
+<circle cx="12" cy="11.9999" r="9" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 10.0001L10 14.0001" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 10.0001L14 14.0001" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_429_11081">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;

@@ -1,20 +1,22 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Animated, StyleSheet, TextInput, View } from "react-native";
+import { Animated, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { commonPosition } from "../../styles/common";
 import { SvgXml } from "react-native-svg";
-import { visibleDraw } from "../../utils/SvgSources";
+import { circleXDraw, visibleDraw } from "../../utils/SvgSources";
 import { svgStructure } from "../../utils/helper";
 import { COLOR_INDIGO, COLOR_IVORY, COLOR_WHITE } from "../../utils/constants/styles";
 import { commonInput } from "../../styles/input";
 
 interface Props {
+  value: string;
   placeholder?: string;
   isPassword?: boolean;
   svg: string;
+  onPress: () => void;
   onChangeText: (t: any) => void;
 }
 
-const InputAuth = ({ placeholder, isPassword, svg, onChangeText }: Props): ReactElement => {
+const InputAuth = ({ value, placeholder, isPassword, svg, onChangeText, onPress }: Props): ReactElement => {
   const [isSecureTextEntry, setIsSecureTextEntry] = useState<boolean>(isPassword ? true : false);
   const animationObj = useRef<Animated.Value>(new Animated.Value(0)).current;
 
@@ -55,20 +57,23 @@ const InputAuth = ({ placeholder, isPassword, svg, onChangeText }: Props): React
         <SvgXml xml={svg} />
       </View>
       <View style={[style.inputBox]}>
-        <TextInput autoCapitalize="none" style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
+        <TextInput autoCapitalize="none" value={value} style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
       </View>
       {isPassword && (
-        <View style={[style.svgBox, commonPosition.centering]}>
+        <View style={[commonPosition.centering]}>
           <SvgXml xml={svgStructure(24, 24, visibleDraw)} onPressIn={() => setIsSecureTextEntry(false)} onPressOut={() => setIsSecureTextEntry(true)} />
         </View>
       )}
+      <TouchableOpacity style={[style.svgBox, commonPosition.centering]} onPressIn={onPress}>
+        <SvgXml xml={svgStructure(24, 24, circleXDraw)} />
+      </TouchableOpacity>
     </Animated.View>
   );
 };
 
 const style = StyleSheet.create({
   svgBox: {
-    width: "20%",
+    marginHorizontal: 20,
   },
   inputBox: {
     flex: 1,

@@ -29,14 +29,8 @@ const memberSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
-    reset: (state) => {
+    logout: (state) => {
       Object.assign(state, initialState);
-    },
-    truely: (state) => {
-      state.isLoggedIn = true;
-    },
-    falsely: (state) => {
-      state.isLoggedIn = false;
     },
   },
   extraReducers: (builder) => {
@@ -57,5 +51,5 @@ const memberSlice = createSlice({
   },
 });
 
-export const { reset, truely, falsely } = memberSlice.actions;
+export const { logout } = memberSlice.actions;
 export default memberSlice.reducer;

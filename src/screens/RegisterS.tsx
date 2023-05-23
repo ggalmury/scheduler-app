@@ -2,7 +2,6 @@ import React, { ReactElement, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
 import InputAuth from "../components/inputs/InputAuth";
 import { svgStructure } from "../utils/helper";
 import { personDraw } from "../utils/SvgSources";
@@ -44,7 +43,7 @@ const RegisterS = (): ReactElement => {
         <Text style={[style.intro]}>회원님을 소개해 주세요!</Text>
       </View>
       <View style={[style.body]}>
-        <InputAuth placeholder="이름" isPassword={false} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} />
+        <InputAuth placeholder="이름" value={name} isPassword={false} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} onPress={rsetName} />
         <PickerDate date={birth} setDate={setBirth} />
         <PickerJob job={job} setJob={setJob} />
       </View>

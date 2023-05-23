@@ -5,7 +5,8 @@ import axios, { AxiosResponse } from "axios";
 import { Member } from "../types/Account";
 
 export const fetchLogin = createAsyncThunk("auth/signin", async (loginRequest: LoginRequest): Promise<Member> => {
-  const response: AxiosResponse = await axios.post(`${SERVERPATH}/api/signin`, loginRequest);
+  const { email, password } = loginRequest;
+  const response: AxiosResponse = await axios.post(`${SERVERPATH}/auth/signin`, { email, password });
   const result = response.data;
 
   return result;

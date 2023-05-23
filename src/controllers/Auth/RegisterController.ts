@@ -32,6 +32,13 @@ export const tryAccountValidate = async (email: string, password: string, passwo
 };
 
 export const tryRegister = async (registerRequest: RegisterRequest, navigation: StackNavigationProp<RootStackParams>): Promise<void> => {
+  const { name, birth, job } = registerRequest;
+
+  if (name === "" || birth === null || job === null) {
+    Alert.alert("입력란을 모두 채워주세요");
+    return;
+  }
+
   try {
     const isSuccess: boolean = await fetchRegister(registerRequest);
 

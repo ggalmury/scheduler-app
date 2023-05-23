@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import InputAuth from "../components/inputs/InputAuth";
 import { svgStructure } from "../utils/helper";
-import { emailDraw, lockOffDraw, personDraw } from "../utils/SvgSources";
+import { emailDraw, lockOffDraw } from "../utils/SvgSources";
 import { lockOnDraw } from "../utils/SvgSources";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
@@ -29,9 +29,9 @@ const RegisterF = (): ReactElement => {
         <Text style={[style.intro]}>이메일로 회원가입</Text>
       </View>
       <View style={[style.body]}>
-        <InputAuth placeholder="abc@gmail.com" isPassword={false} svg={svgStructure(24, 24, emailDraw)} onChangeText={setEmail} />
-        <InputAuth placeholder="비밀번호 입력" isPassword={true} svg={svgStructure(24, 24, lockOffDraw)} onChangeText={setPassword} />
-        <InputAuth placeholder="비밀번호 확인" isPassword={true} svg={svgStructure(24, 24, lockOnDraw)} onChangeText={setPasswordVerify} />
+        <InputAuth placeholder="abc@gmail.com" value={email} isPassword={false} svg={svgStructure(24, 24, emailDraw)} onChangeText={setEmail} onPress={resetEmail} />
+        <InputAuth placeholder="비밀번호 입력" value={password} isPassword={true} svg={svgStructure(24, 24, lockOffDraw)} onChangeText={setPassword} onPress={rsetPassword} />
+        <InputAuth placeholder="비밀번호 확인" value={passwordVerify} isPassword={true} svg={svgStructure(24, 24, lockOnDraw)} onChangeText={setPasswordVerify} onPress={rsetPasswordVerify} />
       </View>
       <View style={[style.footer]}>
         <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoRegisterS} />
