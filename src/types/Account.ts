@@ -19,7 +19,7 @@ export interface Member {
 export const Job = {
   STUDENT: "학생",
   WORKER: "직장인",
-  JOBAPP: "취준생",
+  JOBAPP: "취업준비생",
   FREELANCER: "프리랜서",
   NONE: "없음",
   PRIVATE: "밝히고 싶지 않음",

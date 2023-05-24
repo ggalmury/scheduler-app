@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StackNavigationOptions, TransitionSpecs, createStackNavigator } from "@react-navigation/stack";
+import { StackNavigationOptions, createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import Index from "./Index";
 import Home from "./Home";
@@ -39,7 +39,7 @@ const Navigation = (): ReactElement => {
         <RootStack.Screen name="Login" component={Login} options={defaultHeaderOptions} />
         <RootStack.Screen name="RegisterF" component={RegisterF} options={defaultHeaderOptions} />
         <RootStack.Screen name="RegisterS" component={RegisterS} options={defaultHeaderOptions} />
-        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen name="Home" component={Home} options={defaultHeaderOptions} />
         <RootStack.Screen
           name="Index"
           component={Index}

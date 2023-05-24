@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import InputAuth from "../components/inputs/InputAuth";
@@ -14,6 +13,7 @@ import { JobType } from "../types/Account";
 import PickerDate from "../components/picker/PickerDate";
 import { RegisterRequest } from "../types/Request";
 import { tryRegister } from "../controllers/Auth/RegisterController";
+import RegisterCommon from "../templates/RegisterCommon";
 
 const RegisterS = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -24,8 +24,14 @@ const RegisterS = (): ReactElement => {
   const [name, setName, rsetName] = useInput<string>("");
   const [birth, setBirth] = useState<Date | null>(null);
   const [job, setJob] = useState<JobType | null>(null);
+  const [errCondition, setErrCondition] = useState<boolean>(false);
 
   const registerDone = async () => {
+    if (name === "" || birth === null || job === null) {
+      setErrCondition(true);
+      return;
+    }
+
     const registerRequest: RegisterRequest = {
       email,
       password,
@@ -37,47 +43,25 @@ const RegisterS = (): ReactElement => {
     await tryRegister(registerRequest, navigation);
   };
 
-  return (
-    <View style={[style.container]}>
-      <View style={[style.header]}>
-        <Text style={[style.intro]}>회원님을 소개해 주세요!</Text>
-      </View>
-      <View style={[style.body]}>
-        <InputAuth placeholder="이름" value={name} isPassword={false} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} onPress={rsetName} />
+  const errMessage = (): string => {
+    return errCondition ? "빈칸을 모두 채워주세요" : "";
+  };
+
+  const inputForm = (): ReactElement => {
+    return (
+      <>
+        <InputAuth placeholder="이름" value={name} svg={svgStructure(24, 24, personDraw)} onChangeText={setName} onPress={rsetName} />
         <PickerDate date={birth} setDate={setBirth} />
         <PickerJob job={job} setJob={setJob} />
-      </View>
-      <View style={[style.footer]}>
-        <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={registerDone} />
-      </View>
-    </View>
-  );
-};
+      </>
+    );
+  };
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 30,
-  },
-  header: {
-    height: 60,
-    justifyContent: "center",
-  },
-  body: {
-    height: "37%",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    zIndex: 1,
-  },
-  footer: {
-    flex: 1,
-    alignItems: "center",
-    paddingTop: 15,
-  },
-  intro: {
-    fontFamily: "jamsilBold",
-    fontSize: 20,
-  },
-});
+  const btnSubmit = (): ReactElement => {
+    return <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={registerDone} />;
+  };
+
+  return <RegisterCommon title="회원님을 소개해 주세요!" errMessage={errMessage()} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
+};
 
 export default RegisterS;

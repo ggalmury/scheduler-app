@@ -1,30 +1,30 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
 import { svgStructure } from "../utils/helper";
 import { emailDraw, lockOnDraw } from "../utils/SvgSources";
-import InputAuth from "../components/inputs/InputAuth";
-import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
 import { LoginRequest } from "../types/Request";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/RootReducer";
 import { fetchLogin } from "../repositories/AccountRepository";
+import InputAuth from "../components/inputs/InputAuth";
+import BtnSubmit from "../components/buttons/BtnSubmit";
 
 const Login = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const isLoggedIn: boolean = useSelector((state: RootState) => state.member.isLoggedIn);
   const dispatch = useDispatch();
 
+  const [email, setEmail, resetEmail] = useInput<string>("");
+  const [password, setPassword, rsetPassword] = useInput<string>("");
+
   useEffect(() => {
     isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "Home" }] });
   }, [isLoggedIn]);
-
-  const [email, setEmail, resetEmail] = useInput<string>("");
-  const [password, setPassword, rsetPassword] = useInput<string>("");
 
   const loginDone = async (): Promise<void> => {
     const loginRequest: LoginRequest = {

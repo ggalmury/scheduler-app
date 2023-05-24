@@ -18,6 +18,8 @@ interface Props {
 
 const InputAuth = ({ value, placeholder, isPassword, svg, onChangeText, onPress }: Props): ReactElement => {
   const [isSecureTextEntry, setIsSecureTextEntry] = useState<boolean>(isPassword ? true : false);
+  const [deleteTextSvgToggle, setDeleteTextSvgToggle] = useState<boolean>(false);
+
   const animationObj = useRef<Animated.Value>(new Animated.Value(0)).current;
 
   const animatedStyle = {
@@ -41,6 +43,8 @@ const InputAuth = ({ value, placeholder, isPassword, svg, onChangeText, onPress 
       duration: 200,
       useNativeDriver: false,
     }).start();
+
+    setDeleteTextSvgToggle(true);
   };
 
   const handleBlur = (): void => {
@@ -49,6 +53,8 @@ const InputAuth = ({ value, placeholder, isPassword, svg, onChangeText, onPress 
       duration: 200,
       useNativeDriver: false,
     }).start();
+
+    setDeleteTextSvgToggle(false);
   };
 
   return (
@@ -60,13 +66,15 @@ const InputAuth = ({ value, placeholder, isPassword, svg, onChangeText, onPress 
         <TextInput autoCapitalize="none" value={value} style={[style.textInput]} placeholder={placeholder} onFocus={handleFocus} onBlur={handleBlur} onChangeText={onChangeText} secureTextEntry={isSecureTextEntry} />
       </View>
       {isPassword && (
-        <View style={[commonPosition.centering]}>
+        <View style={[commonPosition.centering, { marginRight: deleteTextSvgToggle ? 0 : 20 }]}>
           <SvgXml xml={svgStructure(24, 24, visibleDraw)} onPressIn={() => setIsSecureTextEntry(false)} onPressOut={() => setIsSecureTextEntry(true)} />
         </View>
       )}
-      <TouchableOpacity style={[style.svgBox, commonPosition.centering]} onPressIn={onPress}>
-        <SvgXml xml={svgStructure(24, 24, circleXDraw)} />
-      </TouchableOpacity>
+      {deleteTextSvgToggle && (
+        <TouchableOpacity style={[style.svgBox, commonPosition.centering]} onPressIn={onPress}>
+          <SvgXml xml={svgStructure(24, 24, circleXDraw)} />
+        </TouchableOpacity>
+      )}
     </Animated.View>
   );
 };

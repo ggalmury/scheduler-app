@@ -38,6 +38,9 @@ export const commonFontColor = StyleSheet.create({
   grey: {
     color: COLOR_GREY,
   },
+  tomato: {
+    color: COLOR_TOMATO,
+  },
 });
 
 export const commonPosition = StyleSheet.create({

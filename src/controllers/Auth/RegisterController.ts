@@ -1,21 +1,11 @@
 import { Alert } from "react-native";
 import { fetchDuplicateEmailCheck, fetchRegister } from "../../repositories/AccountRepository";
 import { RegisterRequest } from "../../types/Request";
-import { ErrorCode } from "../../types/common";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParams } from "../../screens/Navigation";
+import { ErrorCode } from "../../types/common";
 
 export const tryAccountValidate = async (email: string, password: string, passwordVerify: string, navigation: StackNavigationProp<RootStackParams>): Promise<void> => {
-  if (email === "" || password === "" || passwordVerify === "") {
-    Alert.alert("입력란을 모두 채워주세요");
-    return;
-  }
-
-  if (password !== passwordVerify) {
-    Alert.alert("비밀번호를 확인해주세요");
-    return;
-  }
-
   try {
     const isDuplicateEmail: boolean = await fetchDuplicateEmailCheck(email);
 
@@ -32,13 +22,6 @@ export const tryAccountValidate = async (email: string, password: string, passwo
 };
 
 export const tryRegister = async (registerRequest: RegisterRequest, navigation: StackNavigationProp<RootStackParams>): Promise<void> => {
-  const { name, birth, job } = registerRequest;
-
-  if (name === "" || birth === null || job === null) {
-    Alert.alert("입력란을 모두 채워주세요");
-    return;
-  }
-
   try {
     const isSuccess: boolean = await fetchRegister(registerRequest);
 
@@ -61,5 +44,16 @@ export const tryRegister = async (registerRequest: RegisterRequest, navigation: 
     } else {
       Alert.alert("에러가 발생했습니다");
     }
+  }
+};
+
+export const loginFailed = (errorCode: string | undefined): void => {
+  switch (errorCode) {
+    case ErrorCode.notFound:
+      Alert.alert("등록된 계정이 아니에요");
+      return;
+    default:
+      Alert.alert("에러가 발생했습니다");
+      return;
   }
 };

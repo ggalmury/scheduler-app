@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Account, Job, Token, Member } from "../../types/Account";
 import { fetchLogin } from "../../repositories/AccountRepository";
+import { loginFailed } from "../../controllers/Auth/RegisterController";
 
 interface InitialState {
   account: Account;
@@ -38,8 +39,8 @@ const memberSlice = createSlice({
       .addCase(fetchLogin.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchLogin.rejected, () => {
-        // TODO: implement error alert
+      .addCase(fetchLogin.rejected, (state, action) => {
+        loginFailed(action.error.message);
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         const member: Member = action.payload;

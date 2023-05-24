@@ -20,6 +20,7 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
     { label: "보기3", value: Job.FREELANCER },
     { label: "보기4", value: Job.JOBAPP },
     { label: "보기5", value: Job.NONE },
+    { label: "보기6", value: Job.PRIVATE },
   ];
 
   const dropdownToggle = (): void => {
@@ -68,9 +69,9 @@ const style = StyleSheet.create({
   },
   dropdown: {
     position: "absolute",
-    top: 70,
+    top: 65,
     width: "100%",
-    height: 150,
+    flex: 1,
     borderRadius: 25,
   },
   item: {
