@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { commonPosition } from "../styles/common";
+import { commonPosition } from "../styles/Common";
 
 const Loading = (): ReactElement => {
   return (

@@ -2,20 +2,15 @@ import React, { ReactElement, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import InputAuth from "../components/inputs/InputAuth";
-import { svgStructure } from "../utils/helper";
+import { svgStructure, validateEmail } from "../utils/Helper";
 import { emailDraw, lockOffDraw } from "../utils/SvgSources";
 import { lockOnDraw } from "../utils/SvgSources";
 import BtnSubmit from "../components/buttons/BtnSubmit";
-import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
+import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
-import { tryAccountValidate } from "../controllers/Auth/RegisterController";
 import RegisterCommon from "../templates/RegisterCommon";
-
-interface ErrCondition {
-  isBlank: boolean;
-  isPasswordNotMatches: boolean;
-}
+import { fetchDuplicateEmailCheck } from "../repositories/MemeberRepository";
 
 const RegisterF = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -23,28 +18,32 @@ const RegisterF = (): ReactElement => {
   const [email, setEmail, resetEmail] = useInput<string>("");
   const [password, setPassword, rsetPassword] = useInput<string>("");
   const [passwordVerify, setPasswordVerify, rsetPasswordVerify] = useInput<string>("");
-  const [errCondition, setErrCondition] = useState<ErrCondition>({ isBlank: false, isPasswordNotMatches: false });
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const gotoRegisterS = async (): Promise<void> => {
     if (email === "" || password === "" || passwordVerify === "") {
-      setErrCondition((prev) => {
-        return { ...prev, isBlank: true, isPasswordNotMatches: false };
-      });
+      setErrorMsg("빈칸을 모두 채워주세요");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMsg("이메일 형식이 아닙니다");
       return;
     }
 
     if (password !== passwordVerify) {
-      setErrCondition((prev) => {
-        return { ...prev, isBlank: false, isPasswordNotMatches: true };
-      });
+      setErrorMsg("비밀번호가 일치하지 않습니다");
       return;
     }
 
-    await tryAccountValidate(email, password, passwordVerify, navigation);
-  };
+    try {
+      const isDuplicateEmail: boolean = await fetchDuplicateEmailCheck(email);
 
-  const errMessage = (): string => {
-    return errCondition.isBlank ? "빈칸을 모두 채워주세요" : errCondition.isPasswordNotMatches ? "비밀번호가 일치하지 않습니다" : "";
+      isDuplicateEmail ? setErrorMsg("중복된 이메일입니다") : navigation.navigate("RegisterS", { email, password } as any);
+    } catch (err) {
+      setErrorMsg("에러가 발생했습니다");
+      return;
+    }
   };
 
   const inputForm = (): ReactElement => {
@@ -61,7 +60,7 @@ const RegisterF = (): ReactElement => {
     return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoRegisterS} />;
   };
 
-  return <RegisterCommon title="이메일로 회원가입" errMessage={errMessage()} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
+  return <RegisterCommon title="이메일로 회원가입" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
 };
 
 export default RegisterF;

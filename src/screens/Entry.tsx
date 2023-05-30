@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
-import { commonBackgroundColor, commonFontColor, commonPosition } from "../styles/common";
+import { commonBackgroundColor, commonFontColor, commonPosition } from "../styles/Common";
 import { useFont } from "../hooks/useFont";
 import { RootState } from "../store/RootReducer";
 import { RootStackParams } from "./Navigation";

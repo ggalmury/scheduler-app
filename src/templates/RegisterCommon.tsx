@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { commonFontColor } from "../styles/common";
+import { commonFontColor } from "../styles/Common";
 
 interface Props {
   title: string;
@@ -12,6 +12,7 @@ interface Props {
 
 const RegisterCommon = ({ title, errMessage, inputForm, btnSubmit }: Props): ReactElement => {
   const [animationInit, setAnimationInit] = useState<boolean>(false);
+  const formElementsCount: number = inputForm.props.children.length;
 
   return (
     <View style={[style.container]}>
@@ -29,7 +30,7 @@ const RegisterCommon = ({ title, errMessage, inputForm, btnSubmit }: Props): Rea
           {errMessage}
         </Animatable.Text>
       </View>
-      <View style={[style.body]}>{inputForm}</View>
+      <View style={[style.body, { height: formElementsCount === 2 ? "30%" : "40%" }]}>{inputForm}</View>
       <View style={[style.footer]}>{btnSubmit}</View>
     </View>
   );
@@ -45,7 +46,6 @@ const style = StyleSheet.create({
     justifyContent: "flex-end",
   },
   body: {
-    height: "40%",
     alignItems: "center",
     justifyContent: "space-evenly",
     zIndex: 1,

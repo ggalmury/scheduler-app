@@ -2,11 +2,11 @@ import React, { ReactElement } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { commonFontColor, commonPosition } from "../styles/common";
-import { svgStructure } from "../utils/helper";
+import { commonFontColor, commonPosition } from "../styles/Common";
+import { svgStructure } from "../utils/Helper";
 import { facebookDraw, googleDraw, kakaoDraw, naverDraw } from "../utils/SvgSources";
 import BtnSocialLogin from "../components/buttons/BtnSocialLogin";
-import { COLOR_BLACK, COLOR_FACEBOOK, COLOR_INDIGO, COLOR_IVORY, COLOR_KAKAO, COLOR_NAVER, COLOR_WHITE } from "../utils/constants/styles";
+import { COLOR_BLACK, COLOR_FACEBOOK, COLOR_INDIGO, COLOR_IVORY, COLOR_KAKAO, COLOR_NAVER, COLOR_WHITE } from "../utils/constants/Styles";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 
 import { RootStackParams } from "./Navigation";

@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/MemberSlice";
 import { RootState } from "../store/RootReducer";
 import { Member } from "../types/Account";
-import { commonPosition } from "../styles/common";
-import { dateToYMD } from "../utils/helper";
+import { commonPosition } from "../styles/Common";
+import { dateToYMD } from "../utils/Helper";
 
 const Home = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();

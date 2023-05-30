@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
-import { commonBackgroundColor, commonFontColor, commonPosition } from "../../styles/common";
+import { commonBackgroundColor, commonFontColor, commonPosition } from "../../styles/Common";
 
 interface Props {
   name: string;

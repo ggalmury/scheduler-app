@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { SvgXml } from "react-native-svg";
-import { commonPosition } from "../../styles/common";
+import { commonPosition } from "../../styles/Common";
 
 interface Props {
   xml: string;

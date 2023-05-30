@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLOR_BLACK, COLOR_GREY, COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/styles";
+import { COLOR_BLACK, COLOR_GREY, COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
 
 export const commonBackgroundColor = StyleSheet.create({
   skyblue: {

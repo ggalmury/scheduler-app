@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { commonBackgroundColor, commonPosition } from "../../styles/common";
+import { commonBackgroundColor, commonPosition } from "../../styles/Common";
 import { SvgXml } from "react-native-svg";
-import { svgStructure } from "../../utils/helper";
+import { svgStructure } from "../../utils/Helper";
 import { arrowDownDraw, arrowUpDraw, workDraw } from "../../utils/SvgSources";
 import { Job, JobType } from "../../types/Account";
-import { commonInput } from "../../styles/input";
+import { commonInput } from "../../styles/Input";
 
 interface Props {
   job: JobType | null;

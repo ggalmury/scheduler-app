@@ -1,18 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { ReactElement, useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
-import { svgStructure } from "../utils/helper";
+import { svgStructure } from "../utils/Helper";
 import { emailDraw, lockOnDraw } from "../utils/SvgSources";
-import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
+import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { LoginRequest } from "../types/Request";
 import { RootState } from "../store/RootReducer";
-import { fetchLogin } from "../repositories/AccountRepository";
+import { fetchLogin } from "../repositories/MemeberRepository";
 import InputAuth from "../components/inputs/InputAuth";
 import BtnSubmit from "../components/buttons/BtnSubmit";
+import RegisterCommon from "../templates/RegisterCommon";
+import { ErrorCode } from "../types/common";
 
 const Login = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -21,59 +22,49 @@ const Login = (): ReactElement => {
 
   const [email, setEmail, resetEmail] = useInput<string>("");
   const [password, setPassword, rsetPassword] = useInput<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "Home" }] });
   }, [isLoggedIn]);
 
   const loginDone = async (): Promise<void> => {
+    if (email === "" || password === null) {
+      setErrorMsg("빈칸을 모두 채워주세요");
+      return;
+    }
+
     const loginRequest: LoginRequest = {
       email,
       password,
     };
 
-    dispatch(fetchLogin(loginRequest) as any);
+    dispatch(fetchLogin(loginRequest) as any).then((value: any) => {
+      switch (value.error?.message) {
+        case ErrorCode.notFound:
+          setErrorMsg("등록되지 않은 이메일입니다");
+          break;
+        default:
+          setErrorMsg("에러가 발생했습니다");
+          break;
+      }
+    });
   };
 
-  return (
-    <View style={[style.container]}>
-      <View style={[style.header]}>
-        <Text style={[style.intro]}>이메일로 로그인</Text>
-      </View>
-      <View style={[style.body]}>
+  const inputForm = (): ReactElement => {
+    return (
+      <>
         <InputAuth placeholder="이메일" value={email} isPassword={false} svg={svgStructure(24, 24, emailDraw)} onChangeText={setEmail} onPress={resetEmail} />
         <InputAuth placeholder="비밀번호" value={password} isPassword={true} svg={svgStructure(24, 24, lockOnDraw)} onChangeText={setPassword} onPress={rsetPassword} />
-      </View>
-      <View style={[style.footer]}>
-        <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={loginDone} />
-      </View>
-    </View>
-  );
-};
+      </>
+    );
+  };
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 30,
-  },
-  header: {
-    height: 60,
-    justifyContent: "center",
-  },
-  body: {
-    height: "30%",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  footer: {
-    flex: 1,
-    alignItems: "center",
-    paddingTop: 15,
-  },
-  intro: {
-    fontFamily: "jamsilBold",
-    fontSize: 20,
-  },
-});
+  const btnSubmit = (): ReactElement => {
+    return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={loginDone} />;
+  };
+
+  return <RegisterCommon title="로그인 해주세요" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
+};
 
 export default Login;

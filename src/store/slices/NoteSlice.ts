@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { enableMapSet } from "immer";
 import { fetchNoteCreate, fetchNoteDelete, fetchNoteList } from "../../repositories/NoteRepository";
 import { Note, NoteMap } from "../../types/Note";
-import { convertNoteListToMap } from "../../utils/helper";
+import { convertNoteListToMap } from "../../utils/Helper";
 
 enableMapSet();
 

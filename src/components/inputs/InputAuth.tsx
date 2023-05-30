@@ -1,11 +1,11 @@
 import React, { ReactElement, useRef, useState } from "react";
 import { Animated, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import { commonPosition } from "../../styles/common";
+import { commonPosition } from "../../styles/Common";
 import { SvgXml } from "react-native-svg";
 import { circleXDraw, visibleDraw } from "../../utils/SvgSources";
-import { svgStructure } from "../../utils/helper";
-import { COLOR_INDIGO, COLOR_IVORY, COLOR_WHITE } from "../../utils/constants/styles";
-import { commonInput } from "../../styles/input";
+import { svgStructure } from "../../utils/Helper";
+import { COLOR_INDIGO, COLOR_IVORY, COLOR_WHITE } from "../../utils/constants/Styles";
+import { commonInput } from "../../styles/Input";
 
 interface Props {
   value: string;

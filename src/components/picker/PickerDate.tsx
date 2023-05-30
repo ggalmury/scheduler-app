@@ -2,10 +2,10 @@ import React, { ReactElement, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { SvgXml } from "react-native-svg";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { dateToYMD, svgStructure } from "../../utils/helper";
-import { commonBackgroundColor, commonPosition } from "../../styles/common";
+import { dateToYMD, svgStructure } from "../../utils/Helper";
+import { commonBackgroundColor, commonPosition } from "../../styles/Common";
 import { arrowDownDraw, arrowUpDraw, emailDraw, giftDraw } from "../../utils/SvgSources";
-import { commonInput } from "../../styles/input";
+import { commonInput } from "../../styles/Input";
 import moment from "moment";
 
 interface Props {

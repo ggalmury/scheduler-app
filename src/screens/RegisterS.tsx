@@ -1,19 +1,21 @@
 import React, { ReactElement, useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Alert } from "react-native";
 import InputAuth from "../components/inputs/InputAuth";
-import { svgStructure } from "../utils/helper";
+import { svgStructure } from "../utils/Helper";
 import { personDraw } from "../utils/SvgSources";
 import BtnSubmit from "../components/buttons/BtnSubmit";
-import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/styles";
+import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { RootStackParams } from "./Navigation";
 import { useInput } from "../hooks/useInput";
 import PickerJob from "../components/picker/PickerJob";
 import { JobType } from "../types/Account";
 import PickerDate from "../components/picker/PickerDate";
 import { RegisterRequest } from "../types/Request";
-import { tryRegister } from "../controllers/Auth/RegisterController";
 import RegisterCommon from "../templates/RegisterCommon";
+import { fetchRegister } from "../repositories/MemeberRepository";
+import { ErrorCode } from "../types/common";
 
 const RegisterS = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -24,11 +26,11 @@ const RegisterS = (): ReactElement => {
   const [name, setName, rsetName] = useInput<string>("");
   const [birth, setBirth] = useState<Date | null>(null);
   const [job, setJob] = useState<JobType | null>(null);
-  const [errCondition, setErrCondition] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const registerDone = async () => {
     if (name === "" || birth === null || job === null) {
-      setErrCondition(true);
+      setErrorMsg("빈칸을 모두 채워주세요");
       return;
     }
 
@@ -40,11 +42,29 @@ const RegisterS = (): ReactElement => {
       job: job!,
     };
 
-    await tryRegister(registerRequest, navigation);
-  };
+    try {
+      const isSuccess: boolean = await fetchRegister(registerRequest);
 
-  const errMessage = (): string => {
-    return errCondition ? "빈칸을 모두 채워주세요" : "";
+      if (isSuccess) {
+        Alert.alert("회원가입이 완료되었습니다", undefined, [
+          {
+            text: "확인",
+            onPress: () => {
+              navigation.reset({ index: 0, routes: [{ name: "Index" }] });
+            },
+          },
+        ]);
+      } else {
+        setErrorMsg("회원가입에 실패했습니다");
+        return;
+      }
+    } catch (err: any) {
+      if (err.message === ErrorCode.conflict) {
+        setErrorMsg("중복된 이메일입니다");
+      } else {
+        setErrorMsg("에러가 발생했습니다");
+      }
+    }
   };
 
   const inputForm = (): ReactElement => {
@@ -61,7 +81,7 @@ const RegisterS = (): ReactElement => {
     return <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={registerDone} />;
   };
 
-  return <RegisterCommon title="회원님을 소개해 주세요!" errMessage={errMessage()} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
+  return <RegisterCommon title="회원님을 소개해 주세요!" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
 };
 
 export default RegisterS;

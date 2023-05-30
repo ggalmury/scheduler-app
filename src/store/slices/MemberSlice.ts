@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Account, Job, Token, Member } from "../../types/Account";
-import { fetchLogin } from "../../repositories/AccountRepository";
-import { loginFailed } from "../../controllers/Auth/RegisterController";
+import { fetchLogin } from "../../repositories/MemeberRepository";
 
 interface InitialState {
   account: Account;
@@ -27,7 +26,7 @@ const initialState: InitialState = {
 };
 
 const memberSlice = createSlice({
-  name: "account",
+  name: "member",
   initialState,
   reducers: {
     logout: (state) => {
@@ -39,8 +38,8 @@ const memberSlice = createSlice({
       .addCase(fetchLogin.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchLogin.rejected, (state, action) => {
-        loginFailed(action.error.message);
+      .addCase(fetchLogin.rejected, (_, action) => {
+        // logger
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         const member: Member = action.payload;
