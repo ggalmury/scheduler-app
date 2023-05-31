@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { commonBackgroundColor, commonFontColor, commonPosition } from "../styles/Common";
 import { useFont } from "../hooks/useFont";
 import { RootState } from "../store/RootReducer";
-import { RootStackParams } from "./Navigation";
+import { RootStackParams } from "./navigate/RootNavigation";
 
 const Entry = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -21,7 +21,7 @@ const Entry = (): ReactElement => {
 
   useEffect(() => {
     setTimeout(() => {
-      isLoggedIn ? navigation.replace("Home") : navigation.replace("Index");
+      isLoggedIn ? navigation.replace("HomeNavigation") : navigation.replace("Index");
     }, 1500);
   }, []);
 

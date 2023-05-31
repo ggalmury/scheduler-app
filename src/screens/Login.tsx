@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStackParams } from "./Navigation";
+import { RootStackParams } from "./navigate/RootNavigation";
 import { useInput } from "../hooks/useInput";
 import { svgStructure } from "../utils/Helper";
 import { emailDraw, lockOnDraw } from "../utils/SvgSources";
@@ -25,7 +25,7 @@ const Login = (): ReactElement => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
-    isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+    isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "HomeNavigation" }] });
   }, [isLoggedIn]);
 
   const loginDone = async (): Promise<void> => {
@@ -42,10 +42,12 @@ const Login = (): ReactElement => {
     dispatch(fetchLogin(loginRequest) as any).then((value: any) => {
       switch (value.error?.message) {
         case ErrorCode.notFound:
-          setErrorMsg("등록되지 않은 이메일입니다");
+          setErrorMsg("아이디 혹은 비밀번호를 확인해주세요");
           break;
-        default:
+        case ErrorCode.internalServerError:
           setErrorMsg("에러가 발생했습니다");
+        default:
+          setErrorMsg("");
           break;
       }
     });

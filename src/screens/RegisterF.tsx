@@ -7,7 +7,7 @@ import { emailDraw, lockOffDraw } from "../utils/SvgSources";
 import { lockOnDraw } from "../utils/SvgSources";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
-import { RootStackParams } from "./Navigation";
+import { RootStackParams } from "./navigate/RootNavigation";
 import { useInput } from "../hooks/useInput";
 import RegisterCommon from "../templates/RegisterCommon";
 import { fetchDuplicateEmailCheck } from "../repositories/MemeberRepository";

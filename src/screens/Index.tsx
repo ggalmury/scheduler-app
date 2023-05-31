@@ -9,7 +9,7 @@ import BtnSocialLogin from "../components/buttons/BtnSocialLogin";
 import { COLOR_BLACK, COLOR_FACEBOOK, COLOR_INDIGO, COLOR_IVORY, COLOR_KAKAO, COLOR_NAVER, COLOR_WHITE } from "../utils/constants/Styles";
 import BtnSubmit from "../components/buttons/BtnSubmit";
 
-import { RootStackParams } from "./Navigation";
+import { RootStackParams } from "./navigate/RootNavigation";
 
 const Index = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -40,7 +40,7 @@ const Index = (): ReactElement => {
             xml={svgStructure(21, 512, kakaoDraw)}
             backgroundColor={COLOR_KAKAO}
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.navigate("HomeNavigation");
             }}
           />
           <BtnSocialLogin xml={svgStructure(18, 512, naverDraw)} backgroundColor={COLOR_NAVER} onPress={() => {}} />

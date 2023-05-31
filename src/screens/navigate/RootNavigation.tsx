@@ -2,25 +2,26 @@ import React, { ReactElement } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigationOptions, createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
-import Index from "./Index";
-import Home from "./Home";
-import Entry from "./Entry";
-import Login from "./Login";
-import RegisterF from "./RegisterF";
-import RegisterS from "./RegisterS";
+import Index from "../Index";
+import Home from "../Home";
+import Entry from "../Entry";
+import Login from "../Login";
+import RegisterF from "../RegisterF";
+import RegisterS from "../RegisterS";
+import HomeNavigation from "./HomeNavigation";
 
 export type RootStackParams = {
-  Index: undefined;
-  Home: undefined;
   Entry: undefined;
+  Index: undefined;
   Login: undefined;
   RegisterF: undefined;
   RegisterS: undefined;
+  HomeNavigation: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParams>();
 
-const Navigation = (): ReactElement => {
+const RootNavigation = (): ReactElement => {
   const defaultHeaderOptions: StackNavigationOptions = {
     headerTitle: "",
     headerBackTitle: "",
@@ -35,19 +36,19 @@ const Navigation = (): ReactElement => {
     <NavigationContainer>
       <StatusBar translucent backgroundColor="transparent" />
       <RootStack.Navigator initialRouteName="Entry">
-        <RootStack.Screen name="Entry" component={Entry} options={{ headerShown: false }} />
-        <RootStack.Screen name="Login" component={Login} options={defaultHeaderOptions} />
-        <RootStack.Screen name="RegisterF" component={RegisterF} options={defaultHeaderOptions} />
-        <RootStack.Screen name="RegisterS" component={RegisterS} options={defaultHeaderOptions} />
-        <RootStack.Screen name="Home" component={Home} options={defaultHeaderOptions} />
         <RootStack.Screen
           name="Index"
           component={Index}
           options={{ headerTitle: "SCHEDY", headerTitleAlign: "center", headerTitleStyle: { fontFamily: "jamsilBold" }, headerStyle: { backgroundColor: "transparent", elevation: 0, shadowOpacity: 0 } }}
         />
+        <RootStack.Screen name="Entry" component={Entry} options={{ headerShown: false }} />
+        <RootStack.Screen name="Login" component={Login} options={defaultHeaderOptions} />
+        <RootStack.Screen name="RegisterF" component={RegisterF} options={defaultHeaderOptions} />
+        <RootStack.Screen name="RegisterS" component={RegisterS} options={defaultHeaderOptions} />
+        <RootStack.Screen name="HomeNavigation" component={HomeNavigation} options={{ headerShown: false }} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default Navigation;
+export default RootNavigation;

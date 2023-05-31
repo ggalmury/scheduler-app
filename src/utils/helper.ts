@@ -24,8 +24,8 @@ export const convertNoteListToMap = (noteList: Note[]): NoteMap => {
   return noteMap;
 };
 
-export const dateToYMD = (date: Date): string => {
-  const formatted: string = moment(date).format("YYYY-MM-DD");
+export const dateToYMD = (moment: moment.Moment): string => {
+  const formatted: string = moment.format("YYYY-MM-DD");
   return formatted;
 };
 
