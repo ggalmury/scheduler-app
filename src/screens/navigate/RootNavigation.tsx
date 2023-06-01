@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { StackNavigationOptions, createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import Index from "../Index";

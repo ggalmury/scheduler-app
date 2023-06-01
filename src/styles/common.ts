@@ -1,7 +1,10 @@
 import { StyleSheet } from "react-native";
-import { COLOR_BLACK, COLOR_GREY, COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
+import { COLOR_BEIGE, COLOR_BLACK, COLOR_DARKGREY, COLOR_DEFAULT, COLOR_GREY, COLOR_INDIGO, COLOR_IVORY, COLOR_SKYBLUE, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
 
 export const commonBackgroundColor = StyleSheet.create({
+  default: {
+    backgroundColor: COLOR_DEFAULT,
+  },
   skyblue: {
     backgroundColor: COLOR_SKYBLUE,
   },
@@ -23,6 +26,9 @@ export const commonBackgroundColor = StyleSheet.create({
   grey: {
     backgroundColor: COLOR_GREY,
   },
+  beige: {
+    backgroundColor: COLOR_BEIGE,
+  },
 });
 
 export const commonFontColor = StyleSheet.create({
@@ -40,6 +46,9 @@ export const commonFontColor = StyleSheet.create({
   },
   tomato: {
     color: COLOR_TOMATO,
+  },
+  darkgrey: {
+    color: COLOR_DARKGREY,
   },
 });
 

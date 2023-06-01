@@ -10,10 +10,10 @@ import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { LoginRequest } from "../types/Request";
 import { RootState } from "../store/RootReducer";
 import { fetchLogin } from "../repositories/MemeberRepository";
-import InputAuth from "../components/inputs/InputAuth";
-import BtnSubmit from "../components/buttons/BtnSubmit";
+import InputAuth from "../molecules/inputs/InputAuth";
+import BtnSubmit from "../molecules/buttons/BtnSubmit";
 import RegisterCommon from "../templates/RegisterCommon";
-import { ErrorCode } from "../types/common";
+import { ErrorCode } from "../types/Common";
 
 const Login = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -63,7 +63,7 @@ const Login = (): ReactElement => {
   };
 
   const btnSubmit = (): ReactElement => {
-    return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={loginDone} />;
+    return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={250} onPress={loginDone} />;
   };
 
   return <RegisterCommon title="로그인 해주세요" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;

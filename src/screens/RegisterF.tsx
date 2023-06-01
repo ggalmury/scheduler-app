@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import InputAuth from "../components/inputs/InputAuth";
+import InputAuth from "../molecules/inputs/InputAuth";
 import { svgStructure, validateEmail } from "../utils/Helper";
 import { emailDraw, lockOffDraw } from "../utils/SvgSources";
 import { lockOnDraw } from "../utils/SvgSources";
-import BtnSubmit from "../components/buttons/BtnSubmit";
+import BtnSubmit from "../molecules/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { RootStackParams } from "./navigate/RootNavigation";
 import { useInput } from "../hooks/useInput";
@@ -57,7 +57,7 @@ const RegisterF = (): ReactElement => {
   };
 
   const btnSubmit = (): ReactElement => {
-    return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoRegisterS} />;
+    return <BtnSubmit name="다음" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={250} onPress={gotoRegisterS} />;
   };
 
   return <RegisterCommon title="이메일로 회원가입" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;

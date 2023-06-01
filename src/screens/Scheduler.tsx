@@ -1,22 +1,18 @@
-import moment from "moment";
-import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { View, Text } from "react-native-animatable";
+import { View } from "react-native-animatable";
 import Constants from "expo-constants";
+import moment from "moment";
 import Calendar from "../components/Calendar";
-import { dateToYMD, isAndroid } from "../utils/Helper";
+import { isAndroid } from "../utils/Helper";
+import TaskList from "../modals/TaskList";
 
 const Scheduler = (): ReactElement => {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [bottomSheetIndex, setBottomSheetIndex] = useState<number>(0);
   const [selectedDay, setSelectedDay] = useState<moment.Moment>(moment());
 
-  const snapPoints: string[] = ["45%", "85%"];
-
-  useEffect(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
+  // implement task data fetching logic
 
   const getBottomSheetIndex = (index: number): void => {
     setBottomSheetIndex(index);
@@ -32,11 +28,7 @@ const Scheduler = (): ReactElement => {
         <View style={[style.calendar]}>
           <Calendar bottomSheetIndex={bottomSheetIndex} selectedDay={selectedDay} getSelectedDay={getSelectedDay} />
         </View>
-        <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.bottomSheetModal} snapPoints={snapPoints} enablePanDownToClose={false} onChange={getBottomSheetIndex}>
-          <View>
-            <Text>{dateToYMD(selectedDay)}</Text>
-          </View>
-        </BottomSheetModal>
+        <TaskList selectedDay={selectedDay} getBottomSheetIndex={getBottomSheetIndex} />
       </SafeAreaView>
     </BottomSheetModalProvider>
   );
@@ -49,10 +41,6 @@ const style = StyleSheet.create({
   },
   calendar: {
     height: "50%",
-  },
-  bottomSheetModal: {
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
   },
 });
 

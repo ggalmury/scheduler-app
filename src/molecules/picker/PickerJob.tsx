@@ -33,7 +33,7 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
   };
 
   return (
-    <TouchableOpacity style={[style.container, commonInput.authContainer, commonBackgroundColor.ivory]} onPress={dropdownToggle}>
+    <TouchableOpacity style={[commonInput.authContainer, commonInput.authContainer, commonBackgroundColor.ivory]} onPress={dropdownToggle}>
       <View style={[style.svgBox, commonPosition.centering]}>
         <SvgXml xml={svgStructure(24, 24, workDraw)} />
       </View>
@@ -57,9 +57,6 @@ const PickerJob = ({ job, setJob }: Props): ReactElement => {
 };
 
 const style = StyleSheet.create({
-  container: {
-    position: "relative",
-  },
   svgBox: {
     width: "20%",
   },

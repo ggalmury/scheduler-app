@@ -1,4 +1,5 @@
 import { JobType } from "./Account";
+import { TaskColorType, TaskTime } from "./Task";
 
 export interface LoginRequest {
   email: string;
@@ -11,4 +12,14 @@ export interface RegisterRequest {
   name: string;
   birth: Date;
   job: JobType;
+}
+
+export interface TaskCreateRequest {
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  time: TaskTime;
+  privacy: string;
+  color: TaskColorType;
 }

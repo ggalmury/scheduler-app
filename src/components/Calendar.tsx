@@ -3,11 +3,13 @@ import React, { ReactElement, useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Touchable } from "react-native";
 import { commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
-import BtnMonthSelector from "./buttons/BtnMonthSelector";
-import { arrowLeftDraw, arrowRightDraw, createSquareDraw } from "../utils/SvgSources";
+import BtnMonthSelector from "../molecules/buttons/BtnMonthSelector";
+import { createSquareDraw, reloadDraw } from "../utils/SvgSources";
 import { dateToYMD } from "../utils/Helper";
 import { SvgXml } from "react-native-svg";
 import { COLOR_RED, COLOR_SKYBLUE } from "../utils/constants/Styles";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import TaskCreate from "../modals/TaskCreate";
 
 interface Props {
   bottomSheetIndex: number;
@@ -17,6 +19,8 @@ interface Props {
 
 const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): ReactElement => {
   const [today, setToday] = useState<moment.Moment>(moment());
+  const [swipeToggle, setSwipeToggle] = useState<boolean>(true);
+  const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
 
   const firstWeek: number = today.clone().startOf("month").week();
   const lastWeek: number = today.clone().endOf("month").week() === 1 ? 53 : today.clone().endOf("month").week();
@@ -28,67 +32,93 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
   const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 
   const nextMonth = (): void => {
-    setToday(today.clone().add(1, "month"));
+    if (swipeToggle) {
+      setToday(today.clone().add(1, "month"));
+      setSwipeToggle(false);
+    }
   };
 
   const prevMonth = (): void => {
-    setToday(today.clone().subtract(1, "month"));
+    if (swipeToggle) {
+      setToday(today.clone().subtract(1, "month"));
+      setSwipeToggle(false);
+    }
   };
 
   const currentMonth = (): void => {
     setToday(moment());
   };
 
+  const onGestureEvent = ({ nativeEvent }: any) => {
+    if (nativeEvent.translationX > 0) {
+      nextMonth();
+    } else if (nativeEvent.translationX < 0) {
+      prevMonth();
+    }
+  };
+
+  const onHandlerStateChange = ({ nativeEvent }: any) => {
+    if (nativeEvent.state === 5) {
+      setSwipeToggle(true);
+    }
+  };
+
+  const handleTaskCreateToggle = (): void => {
+    setTaskCreateToggle(!taskCreateToggle);
+  };
+
   return (
-    <View style={[style.container]}>
-      <View style={[style.optionBox]}>
-        <View style={[style.optionLeft]}>
-          <TouchableOpacity onPress={currentMonth}>
-            <Text style={[style.month]}>{bottomSheetIndex === 0 ? today.format("MMMM YYYY") : today.format("MMMM DD")}</Text>
+    <PanGestureHandler onGestureEvent={onGestureEvent} onHandlerStateChange={onHandlerStateChange}>
+      <View style={[style.container]}>
+        <TaskCreate toggle={taskCreateToggle} setToggle={handleTaskCreateToggle} today={today} />
+        <View style={[style.optionBox]}>
+          <View style={[style.optionLeft]}>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={[style.month]}>{bottomSheetIndex === 0 ? today.format("YYYY년  MMMM") : today.format("MMMM  D일")}</Text>
+            </TouchableOpacity>
+            {bottomSheetIndex === 0 && (
+              <View style={[style.monthSelectorBox]}>
+                <BtnMonthSelector xml={svgStructure(18, 24, reloadDraw)} onPress={currentMonth} />
+              </View>
+            )}
+          </View>
+          <TouchableOpacity onPress={handleTaskCreateToggle}>
+            <SvgXml xml={svgStructure(28, 24, createSquareDraw)} />
           </TouchableOpacity>
-          {bottomSheetIndex === 0 && (
-            <View style={[style.monthSelectorBox]}>
-              <BtnMonthSelector xml={svgStructure(30, 24, arrowLeftDraw)} onPress={prevMonth} />
-              <BtnMonthSelector xml={svgStructure(30, 24, arrowRightDraw)} onPress={nextMonth} />
-            </View>
-          )}
         </View>
-        <TouchableOpacity onPress={() => {}}>
-          <SvgXml xml={svgStructure(28, 24, createSquareDraw)} />
-        </TouchableOpacity>
-      </View>
-      <View style={[style.calendar]}>
-        <View style={[style.row]}>
-          {days.map((day, idx) => {
+        <View style={[style.calendar]}>
+          <View style={[style.row]}>
+            {days.map((day, idx) => {
+              return (
+                <View key={idx} style={[style.dayBox, commonPosition.centering]}>
+                  <Text style={[style.dayOfWeek]}>{day}</Text>
+                </View>
+              );
+            })}
+          </View>
+          {weekArr.map((week, weekIdx) => {
             return (
-              <View key={idx} style={[style.dayBox, commonPosition.centering]}>
-                <Text style={[style.dayOfWeek]}>{day}</Text>
+              <View key={weekIdx} style={[style.row]}>
+                {Array(7)
+                  .fill(0)
+                  .map((_, dayIdx) => {
+                    const day: moment.Moment = today.clone().week(week).startOf("week").add(dayIdx, "day");
+                    const formattedDay: string = day.format("D");
+
+                    return (
+                      <TouchableOpacity key={dayIdx} style={[style.dayBox, commonPosition.centering]} onPress={() => getSelectedDay(day)}>
+                        <Text style={[style.day, { color: day.format("MM") === today.format("MM") ? "black" : "grey" }]}>{formattedDay}</Text>
+                        {selectedDay && dateToYMD(day) === dateToYMD(selectedDay) && <View style={[style.today, style.borderBlue]}></View>}
+                        {dateToYMD(day) === dateToYMD(moment()) && <View style={[style.today, style.borderRed]}></View>}
+                      </TouchableOpacity>
+                    );
+                  })}
               </View>
             );
           })}
         </View>
-        {weekArr.map((week, weekIdx) => {
-          return (
-            <View key={weekIdx} style={[style.row]}>
-              {Array(7)
-                .fill(0)
-                .map((_, dayIdx) => {
-                  const day: moment.Moment = today.clone().week(week).startOf("week").add(dayIdx, "day");
-                  const formattedDay: string = day.format("D");
-
-                  return (
-                    <TouchableOpacity key={dayIdx} style={[style.dayBox, commonPosition.centering]} onPress={() => getSelectedDay(day)}>
-                      <Text style={[style.day, { color: day.format("MM") === today.format("MM") ? "black" : "grey" }]}>{formattedDay}</Text>
-                      {selectedDay && dateToYMD(day) === dateToYMD(selectedDay) && <View style={[style.today, style.borderBlue]}></View>}
-                      {dateToYMD(day) === dateToYMD(moment()) && <View style={[style.today, style.borderRed]}></View>}
-                    </TouchableOpacity>
-                  );
-                })}
-            </View>
-          );
-        })}
       </View>
-    </View>
+    </PanGestureHandler>
   );
 };
 
@@ -96,6 +126,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    position: "relative",
   },
   optionBox: {
     flexDirection: "row",
@@ -106,6 +137,7 @@ const style = StyleSheet.create({
   },
   monthSelectorBox: {
     flexDirection: "row",
+    alignItems: "center",
     marginLeft: 10,
   },
   optionLeft: {
@@ -128,6 +160,7 @@ const style = StyleSheet.create({
     fontFamily: "jamsilBold",
     fontSize: 20,
   },
+
   dayOfWeek: {
     fontFamily: "jamsilBold",
   },

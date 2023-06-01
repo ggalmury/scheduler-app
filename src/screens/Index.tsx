@@ -5,9 +5,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { commonFontColor, commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
 import { facebookDraw, googleDraw, kakaoDraw, naverDraw } from "../utils/SvgSources";
-import BtnSocialLogin from "../components/buttons/BtnSocialLogin";
+import BtnSocialLogin from "../molecules/buttons/BtnSocialLogin";
 import { COLOR_BLACK, COLOR_FACEBOOK, COLOR_INDIGO, COLOR_IVORY, COLOR_KAKAO, COLOR_NAVER, COLOR_WHITE } from "../utils/constants/Styles";
-import BtnSubmit from "../components/buttons/BtnSubmit";
+import BtnSubmit from "../molecules/buttons/BtnSubmit";
 
 import { RootStackParams } from "./navigate/RootNavigation";
 
@@ -32,8 +32,8 @@ const Index = (): ReactElement => {
       </View>
       <View style={[style.body]}>
         <View style={[style.loginOptionBox]}>
-          <BtnSubmit name="이메일로 로그인" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={gotoLogin} />
-          <BtnSubmit name="회원가입" backgroundColor={COLOR_IVORY} color={COLOR_BLACK} onPress={gotoRegister} />
+          <BtnSubmit name="이메일로 로그인" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={250} onPress={gotoLogin} />
+          <BtnSubmit name="회원가입" backgroundColor={COLOR_IVORY} color={COLOR_BLACK} width={250} onPress={gotoRegister} />
         </View>
         <View style={[style.socialLoginBox, commonPosition.centering]}>
           <BtnSocialLogin

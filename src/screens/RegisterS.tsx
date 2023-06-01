@@ -2,20 +2,20 @@ import React, { ReactElement, useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Alert } from "react-native";
-import InputAuth from "../components/inputs/InputAuth";
+import InputAuth from "../molecules/inputs/InputAuth";
 import { svgStructure } from "../utils/Helper";
 import { personDraw } from "../utils/SvgSources";
-import BtnSubmit from "../components/buttons/BtnSubmit";
+import BtnSubmit from "../molecules/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_WHITE } from "../utils/constants/Styles";
 import { RootStackParams } from "./navigate/RootNavigation";
 import { useInput } from "../hooks/useInput";
-import PickerJob from "../components/picker/PickerJob";
+import PickerJob from "../molecules/picker/PickerJob";
 import { JobType } from "../types/Account";
-import PickerDate from "../components/picker/PickerDate";
+import PickerDate from "../molecules/picker/PickerDate";
 import { RegisterRequest } from "../types/Request";
 import RegisterCommon from "../templates/RegisterCommon";
 import { fetchRegister } from "../repositories/MemeberRepository";
-import { ErrorCode } from "../types/common";
+import { ErrorCode } from "../types/Common";
 
 const RegisterS = (): ReactElement => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
@@ -78,7 +78,7 @@ const RegisterS = (): ReactElement => {
   };
 
   const btnSubmit = (): ReactElement => {
-    return <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} onPress={registerDone} />;
+    return <BtnSubmit name="가입하기" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={250} onPress={registerDone} />;
   };
 
   return <RegisterCommon title="회원님을 소개해 주세요!" errMessage={errorMsg} inputForm={inputForm()} btnSubmit={btnSubmit()} />;
