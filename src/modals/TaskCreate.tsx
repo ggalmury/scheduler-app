@@ -11,14 +11,18 @@ import PickerTime from "../molecules/picker/PickerTime";
 import { TaskColor, TaskColorType } from "../types/Task";
 import BtnColorSelector from "../molecules/buttons/BtnColorSelector";
 import { TaskCreateRequest } from "../types/Request";
+import { useDispatch } from "react-redux";
+import { fetchTaskCreate } from "../repositories/TaskRepository";
 
 interface Props {
   toggle: boolean;
   setToggle: () => void;
-  today: moment.Moment;
+  selectedDay: moment.Moment;
 }
 
-const TaskCreate = ({ toggle, setToggle, today }: Props): ReactElement => {
+const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => {
+  const dispatch = useDispatch();
+
   const [title, setTitle, resetTitle] = useInput<string>("");
   const [description, setDescription, resetDescription] = useInput<string>("");
   const [location, setLocation, resetLocation] = useInput<string>("");
@@ -45,7 +49,7 @@ const TaskCreate = ({ toggle, setToggle, today }: Props): ReactElement => {
       title,
       description,
       location,
-      date: dateToYMD(today),
+      date: dateToYMD(selectedDay),
       time: {
         startAt: {
           hour: parseInt(startTime.format("hh")),
@@ -60,9 +64,10 @@ const TaskCreate = ({ toggle, setToggle, today }: Props): ReactElement => {
       color: color,
     };
 
-    console.log(taskCreateRequest);
-    setToggle();
-    resetForm();
+    dispatch(fetchTaskCreate(taskCreateRequest) as any);
+
+    // setToggle();
+    // resetForm();
   };
 
   return (

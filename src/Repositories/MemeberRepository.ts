@@ -3,7 +3,6 @@ import { SERVERPATH } from "../utils/constants/Global";
 import { LoginRequest, RegisterRequest, TokenRequest } from "../types/Request";
 import axios, { AxiosResponse } from "axios";
 import { Member, Token } from "../types/Account";
-import customAxiosRequest from "../config/AxiosInterceptor";
 
 export const fetchLogin = createAsyncThunk("auth/signin", async (loginRequest: LoginRequest): Promise<Member> => {
   const response: AxiosResponse = await axios.post(`${SERVERPATH}/auth/signin`, loginRequest);
@@ -27,8 +26,7 @@ export const fetchRegister = async (registerRequest: RegisterRequest): Promise<b
 };
 
 export const fetchToken = createAsyncThunk("auth/token", async (tokenRequest: TokenRequest): Promise<Token> => {
-  console.log(tokenRequest);
-  const response: AxiosResponse = await customAxiosRequest.post(`${SERVERPATH}/auth/token`, tokenRequest);
+  const response: AxiosResponse = await axios.post(`${SERVERPATH}/auth/token`, tokenRequest);
   const result = response.data;
 
   return result;

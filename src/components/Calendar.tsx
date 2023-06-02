@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Touchable } from "react-native";
 import { commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
@@ -10,12 +10,9 @@ import { SvgXml } from "react-native-svg";
 import { COLOR_RED, COLOR_SKYBLUE } from "../utils/constants/Styles";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import TaskCreate from "../modals/TaskCreate";
+import { TaskListRequest } from "../types/Request";
 import { useDispatch } from "react-redux";
-import { fetchToken } from "../repositories/MemeberRepository";
-import { TokenRequest } from "../types/Request";
-import { Member } from "../types/Account";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/RootReducer";
+import { fetchTaskList } from "../repositories/TaskRepository";
 
 interface Props {
   bottomSheetIndex: number;
@@ -25,14 +22,13 @@ interface Props {
 
 const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): ReactElement => {
   const dispatch = useDispatch();
-  const member: Member = useSelector((state: RootState) => state.member);
 
-  const [today, setToday] = useState<moment.Moment>(moment());
+  const [standardDay, setStandardDay] = useState<moment.Moment>(moment());
   const [swipeToggle, setSwipeToggle] = useState<boolean>(true);
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
 
-  const firstWeek: number = today.clone().startOf("month").week();
-  const lastWeek: number = today.clone().endOf("month").week() === 1 ? 53 : today.clone().endOf("month").week();
+  const firstWeek: number = standardDay.clone().startOf("month").week();
+  const lastWeek: number = standardDay.clone().endOf("month").week() === 1 ? 53 : standardDay.clone().endOf("month").week();
   const weekArr: number[] = Array(lastWeek - firstWeek + 1)
     .fill(0)
     .map((_, idx) => {
@@ -40,29 +36,38 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
     });
   const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 
+  useEffect(() => {
+    const startOfWeek: Date = standardDay.clone().week(firstWeek).startOf("week").toDate();
+    const endOfWeek: Date = standardDay.clone().week(lastWeek).endOf("week").toDate();
+
+    const taskListRequest: TaskListRequest = { startOfWeek, endOfWeek };
+
+    dispatch(fetchTaskList(taskListRequest) as any).then((value: any) => console.log(value.payload));
+  }, [standardDay]);
+
   const nextMonth = (): void => {
     if (swipeToggle) {
-      setToday(today.clone().add(1, "month"));
+      setStandardDay(standardDay.clone().add(1, "month"));
       setSwipeToggle(false);
     }
   };
 
   const prevMonth = (): void => {
     if (swipeToggle) {
-      setToday(today.clone().subtract(1, "month"));
+      setStandardDay(standardDay.clone().subtract(1, "month"));
       setSwipeToggle(false);
     }
   };
 
   const currentMonth = (): void => {
-    setToday(moment());
+    setStandardDay(moment());
   };
 
   const onGestureEvent = ({ nativeEvent }: any) => {
     if (nativeEvent.translationX > 0) {
-      nextMonth();
-    } else if (nativeEvent.translationX < 0) {
       prevMonth();
+    } else if (nativeEvent.translationX < 0) {
+      nextMonth();
     }
   };
 
@@ -79,11 +84,11 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
   return (
     <PanGestureHandler onGestureEvent={onGestureEvent} onHandlerStateChange={onHandlerStateChange}>
       <View style={[style.container]}>
-        <TaskCreate toggle={taskCreateToggle} setToggle={handleTaskCreateToggle} today={today} />
+        <TaskCreate toggle={taskCreateToggle} setToggle={handleTaskCreateToggle} selectedDay={selectedDay} />
         <View style={[style.optionBox]}>
           <View style={[style.optionLeft]}>
             <TouchableOpacity onPress={() => {}}>
-              <Text style={[style.month]}>{bottomSheetIndex === 0 ? today.format("YYYY년  MMMM") : today.format("MMMM  D일")}</Text>
+              <Text style={[style.month]}>{bottomSheetIndex === 0 ? standardDay.format("YYYY년  MMMM") : selectedDay.format("MMMM  D일")}</Text>
             </TouchableOpacity>
             {bottomSheetIndex === 0 && (
               <View style={[style.monthSelectorBox]}>
@@ -111,12 +116,12 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
                 {Array(7)
                   .fill(0)
                   .map((_, dayIdx) => {
-                    const day: moment.Moment = today.clone().week(week).startOf("week").add(dayIdx, "day");
+                    const day: moment.Moment = standardDay.clone().week(week).startOf("week").add(dayIdx, "day");
                     const formattedDay: string = day.format("D");
 
                     return (
                       <TouchableOpacity key={dayIdx} style={[style.dayBox, commonPosition.centering]} onPress={() => getSelectedDay(day)}>
-                        <Text style={[style.day, { color: day.format("MM") === today.format("MM") ? "black" : "grey" }]}>{formattedDay}</Text>
+                        <Text style={[style.day, { color: day.format("MM") === standardDay.format("MM") ? "black" : "grey" }]}>{formattedDay}</Text>
                         {selectedDay && dateToYMD(day) === dateToYMD(selectedDay) && <View style={[style.today, style.borderBlue]}></View>}
                         {dateToYMD(day) === dateToYMD(moment()) && <View style={[style.today, style.borderRed]}></View>}
                       </TouchableOpacity>

@@ -12,7 +12,6 @@ import { dateToYMD } from "../utils/Helper";
 import moment from "moment";
 
 const Home = (): ReactElement => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const dispatch = useDispatch();
 
   const member: Member = useSelector((state: RootState) => state.member);
@@ -20,7 +19,6 @@ const Home = (): ReactElement => {
 
   const gotoIndex = (): void => {
     dispatch(logout());
-    navigation.reset({ index: 0, routes: [{ name: "Index" }] });
   };
 
   return (

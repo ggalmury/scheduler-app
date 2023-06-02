@@ -1,14 +1,28 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SvgXml } from "react-native-svg";
 import Home from "../Home";
 import Scheduler from "../Scheduler";
 import { calendarDraw, homeDraw, questionMarkDraw } from "../../utils/SvgSources";
 import { svgStructure } from "../../utils/Helper";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParams } from "./RootNavigation";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/RootReducer";
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = (): ReactElement => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+  const isLoggedIin: boolean = useSelector((state: RootState) => state.member.isLoggedIn);
+
+  useEffect(() => {
+    if (!isLoggedIin) {
+      navigation.reset({ index: 0, routes: [{ name: "Index" }] });
+    }
+  }, [isLoggedIin]);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"

@@ -24,6 +24,11 @@ export interface TaskCreateRequest {
   color: TaskColorType;
 }
 
+export interface TaskListRequest {
+  startOfWeek: Date;
+  endOfWeek: Date;
+}
+
 export interface TokenRequest {
   uuid: string;
   email: string;

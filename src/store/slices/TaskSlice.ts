@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchTaskCreate } from "../../repositories/TaskRepository";
 
 interface InitialState {}
 
@@ -8,7 +9,11 @@ const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchTaskCreate.fulfilled, (state, action) => {
+      console.log(action.payload);
+    });
+  },
 });
 
 export const {} = taskSlice.actions;
