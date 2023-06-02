@@ -23,3 +23,10 @@ export interface TaskCreateRequest {
   privacy: string;
   color: TaskColorType;
 }
+
+export interface TokenRequest {
+  uuid: string;
+  email: string;
+  accessToken: string;
+  refreshToken: string;
+}

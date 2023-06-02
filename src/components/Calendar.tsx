@@ -10,6 +10,12 @@ import { SvgXml } from "react-native-svg";
 import { COLOR_RED, COLOR_SKYBLUE } from "../utils/constants/Styles";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import TaskCreate from "../modals/TaskCreate";
+import { useDispatch } from "react-redux";
+import { fetchToken } from "../repositories/MemeberRepository";
+import { TokenRequest } from "../types/Request";
+import { Member } from "../types/Account";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/RootReducer";
 
 interface Props {
   bottomSheetIndex: number;
@@ -18,6 +24,9 @@ interface Props {
 }
 
 const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): ReactElement => {
+  const dispatch = useDispatch();
+  const member: Member = useSelector((state: RootState) => state.member);
+
   const [today, setToday] = useState<moment.Moment>(moment());
   const [swipeToggle, setSwipeToggle] = useState<boolean>(true);
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import { COLOR_TASK_1, COLOR_TASK_2, COLOR_TASK_3, COLOR_TASK_4 } from "../utils/constants/Styles";
+import { COLOR_SKYBLUE, COLOR_TASK_1, COLOR_TASK_2, COLOR_TASK_3, COLOR_TASK_4 } from "../utils/constants/Styles";
 
 export interface TaskTimeDetail {
   hour: number;
@@ -10,11 +10,28 @@ export interface TaskTime {
   endAt: TaskTimeDetail;
 }
 
+export interface Task {
+  taskId: number;
+  uuid: string;
+  userName: string;
+  email: string;
+  title: string;
+  description: string;
+  color: TaskColorType;
+  location: string;
+  date: string;
+  time: TaskTime;
+  privacy: string;
+  createdDt: Date;
+  state: boolean;
+}
+
 export const TaskColor = {
   color1: COLOR_TASK_1,
   color2: COLOR_TASK_2,
   color3: COLOR_TASK_3,
   color4: COLOR_TASK_4,
+  color5: COLOR_SKYBLUE,
 } as const;
 
 export type TaskColorType = (typeof TaskColor)[keyof typeof TaskColor];

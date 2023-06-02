@@ -5,19 +5,20 @@ import { SvgXml } from "react-native-svg";
 import { commonInput } from "../../styles/Input";
 
 interface Props {
+  placeholder: string;
   value: string;
   svg: string;
   onChangeText: (value: string) => void;
 }
 
-const InputTask = ({ value, svg, onChangeText }: Props): ReactElement => {
+const InputTask = ({ placeholder, value, svg, onChangeText }: Props): ReactElement => {
   return (
     <View style={[commonInput.taskCreatorContainer]}>
       <View style={[style.svgBox, commonPosition.centering]}>
         <SvgXml xml={svg} />
       </View>
       <View style={[style.inputBox]}>
-        <TextInput style={[style.textInput]} autoCapitalize="none" value={value} onChangeText={onChangeText} />
+        <TextInput style={[style.textInput]} placeholder={placeholder} autoCapitalize="none" value={value} onChangeText={onChangeText} />
       </View>
     </View>
   );
@@ -25,7 +26,7 @@ const InputTask = ({ value, svg, onChangeText }: Props): ReactElement => {
 
 const style = StyleSheet.create({
   svgBox: {
-    marginHorizontal: 15,
+    marginRight: 15,
   },
   inputBox: {
     flex: 1,

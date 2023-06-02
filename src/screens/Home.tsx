@@ -28,6 +28,7 @@ const Home = (): ReactElement => {
       <TouchableOpacity onPress={gotoIndex}>
         <Text>Logout</Text>
       </TouchableOpacity>
+      <Text>uuid: {member.account.uuid}</Text>
       <Text>name: {member.account.name}</Text>
       <Text>email: {member.account.email}</Text>
       <Text>birth: {dateToYMD(moment(member.account.birth))}</Text>

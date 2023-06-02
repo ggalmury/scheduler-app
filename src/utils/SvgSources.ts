@@ -145,3 +145,8 @@ export const locationDraw: string = `<g id="Navigation / Map_Pin">
 <path d="M10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 </g>
 </g>`;
+
+// vb: 24
+export const clockDraw: string = `<g id="Calendar / Clock">
+<path id="Vector" d="M12 7V12H17M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+</g>`;

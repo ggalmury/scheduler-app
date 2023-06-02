@@ -1,4 +1,5 @@
 export interface Account {
+  uuid: string;
   email: string;
   name: string;
   job: JobType;

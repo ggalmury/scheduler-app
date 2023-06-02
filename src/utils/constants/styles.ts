@@ -15,7 +15,7 @@ export const COLOR_NAVER: string = "rgb(83, 182, 58)";
 export const COLOR_FACEBOOK: string = "rgb(59, 89, 152)";
 export const COLOR_GOOGLE: string = "rgb(242, 242, 242)";
 
-export const COLOR_TASK_1: string = "rgb(253, 253, 189)";
-export const COLOR_TASK_2: string = "rgb(200, 255, 212)";
-export const COLOR_TASK_3: string = "rgb(184, 232, 252)";
-export const COLOR_TASK_4: string = "rgb(177, 175, 255)";
+export const COLOR_TASK_1: string = "rgb(177, 175, 255)";
+export const COLOR_TASK_2: string = "rgb(253, 253, 189)";
+export const COLOR_TASK_3: string = "rgb(200, 255, 212)";
+export const COLOR_TASK_4: string = "rgb(184, 232, 252)";

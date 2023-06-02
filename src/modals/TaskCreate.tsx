@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import { commonBackgroundColor } from "../styles/Common";
 import BtnSubmit from "../molecules/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
@@ -24,10 +24,23 @@ const TaskCreate = ({ toggle, setToggle, today }: Props): ReactElement => {
   const [location, setLocation, resetLocation] = useInput<string>("");
   const [startTime, setStartTime] = useState<moment.Moment | null>(null);
   const [endTime, setEndTime] = useState<moment.Moment | null>(null);
-  const [color, setColor] = useState<TaskColorType | null>(null);
+  const [color, setColor, resetColor] = useInput<TaskColorType>(TaskColor.color5);
 
-  // exception handling required
+  const resetForm = (): void => {
+    resetTitle();
+    resetDescription();
+    resetLocation();
+    setStartTime(null);
+    setEndTime(null);
+    resetColor();
+  };
+
   const taskCreateDone = (): void => {
+    if (startTime === null || endTime === null) {
+      Alert.alert("시간을 선택해 주세요");
+      return;
+    }
+
     const taskCreateRequest: TaskCreateRequest = {
       title,
       description,
@@ -35,60 +48,43 @@ const TaskCreate = ({ toggle, setToggle, today }: Props): ReactElement => {
       date: dateToYMD(today),
       time: {
         startAt: {
-          hour: parseInt(startTime!.format("hh")),
-          minute: parseInt(startTime!.format("mm")),
+          hour: parseInt(startTime.format("hh")),
+          minute: parseInt(startTime.format("mm")),
         },
         endAt: {
-          hour: parseInt(endTime!.format("hh")),
-          minute: parseInt(endTime!.format("mm")),
+          hour: parseInt(endTime.format("hh")),
+          minute: parseInt(endTime.format("mm")),
         },
       },
       privacy: "default",
-      color: color!,
+      color: color,
     };
 
     console.log(taskCreateRequest);
+    setToggle();
+    resetForm();
   };
 
   return (
     <Modal visible={toggle} animationType="slide" transparent={true}>
       <View style={[style.container, commonBackgroundColor.default]}>
-        <View style={{ flex: 1, paddingHorizontal: 25 }}>
-          <View style={[style.commonBox]}>
-            <Text style={[style.titleText]}>제목</Text>
-            <InputTask value={title} onChangeText={setTitle} svg={svgStructure(20, 24, tagDraw)} />
+        <InputTask placeholder="제목" value={title} onChangeText={setTitle} svg={svgStructure(20, 24, tagDraw)} />
+        <PickerTime title="시작 시간" time={startTime} setTime={setStartTime} />
+        <PickerTime title="종료 시간" time={endTime} setTime={setEndTime} />
+        <View style={[style.optionBox]}>
+          <Text style={[style.titleText]}>색상</Text>
+          <View style={[style.colorBox]}>
+            <BtnColorSelector backgroundColor={TaskColor.color1} color={color} setColor={setColor} />
+            <BtnColorSelector backgroundColor={TaskColor.color2} color={color} setColor={setColor} />
+            <BtnColorSelector backgroundColor={TaskColor.color3} color={color} setColor={setColor} />
+            <BtnColorSelector backgroundColor={TaskColor.color4} color={color} setColor={setColor} />
           </View>
-          <View style={[style.dateBox]}>
-            <View style={[style.eachTime]}>
-              <Text style={[style.titleText]}>시작 시간</Text>
-              <PickerTime time={startTime} setTime={setStartTime} />
-            </View>
-            <View style={[style.eachTime]}>
-              <Text style={[style.titleText]}>종료 시간</Text>
-              <PickerTime time={endTime} setTime={setEndTime} />
-            </View>
-          </View>
-          <View style={[style.optionBox]}>
-            <Text style={[style.titleText]}>색상</Text>
-            <View style={[style.colorBox]}>
-              <BtnColorSelector color={TaskColor.color1} setColor={setColor} />
-              <BtnColorSelector color={TaskColor.color2} setColor={setColor} />
-              <BtnColorSelector color={TaskColor.color3} setColor={setColor} />
-              <BtnColorSelector color={TaskColor.color4} setColor={setColor} />
-            </View>
-          </View>
-          <View style={[style.commonBox]}>
-            <Text style={[style.titleText]}>메모</Text>
-            <InputTask value={description} onChangeText={setDescription} svg={svgStructure(20, 24, pencilDraw)} />
-          </View>
-          <View style={[style.commonBox]}>
-            <Text style={[style.titleText]}>장소</Text>
-            <InputTask value={location} onChangeText={setLocation} svg={svgStructure(20, 24, locationDraw)} />
-          </View>
-          <View style={[style.footer]}>
-            <BtnSubmit name="저장" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={120} onPress={taskCreateDone} />
-            <BtnSubmit name="취소" backgroundColor={COLOR_WHITE} color={COLOR_TOMATO} width={120} onPress={setToggle} />
-          </View>
+        </View>
+        <InputTask placeholder="메모" value={description} onChangeText={setDescription} svg={svgStructure(20, 24, pencilDraw)} />
+        <InputTask placeholder="장소" value={location} onChangeText={setLocation} svg={svgStructure(20, 24, locationDraw)} />
+        <View style={[style.footer]}>
+          <BtnSubmit name="저장" backgroundColor={COLOR_INDIGO} color={COLOR_WHITE} width={120} onPress={taskCreateDone} />
+          <BtnSubmit name="취소" backgroundColor={COLOR_WHITE} color={COLOR_TOMATO} width={120} onPress={setToggle} />
         </View>
       </View>
     </Modal>
@@ -102,13 +98,7 @@ const style = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 0,
-  },
-  dateBox: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  commonBox: {
-    justifyContent: "center",
+    paddingHorizontal: 30,
   },
   optionBox: {
     height: "20%",
@@ -121,15 +111,12 @@ const style = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
   },
   titleText: {
     fontFamily: "jamsilBold",
-    fontSize: 18,
+    fontSize: 16,
     marginVertical: 12,
-  },
-  eachTime: {
-    width: 150,
   },
 });
 export default TaskCreate;

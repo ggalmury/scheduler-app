@@ -2,18 +2,20 @@ import React, { ReactElement } from "react";
 import { TaskColorType } from "../../types/Task";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
+import { COLOR_DARKGREY } from "../../utils/constants/Styles";
 
 interface Props {
+  backgroundColor: TaskColorType;
   color: TaskColorType;
-  setColor: React.Dispatch<React.SetStateAction<string | null>>;
+  setColor: (v: string) => void;
 }
 
-const BtnColorSelector = ({ color, setColor }: Props): ReactElement => {
+const BtnColorSelector = ({ backgroundColor, color, setColor }: Props): ReactElement => {
   const handleColor = (): void => {
-    setColor(color);
+    setColor(backgroundColor);
   };
 
-  return <TouchableOpacity style={[style.container, { backgroundColor: color }]} onPress={handleColor} />;
+  return <TouchableOpacity style={[style.container, color === backgroundColor && style.select, { backgroundColor }]} onPress={handleColor} />;
 };
 
 const style = StyleSheet.create({
@@ -21,7 +23,11 @@ const style = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 100,
-    marginHorizontal: 7,
+    marginRight: 14,
+  },
+  select: {
+    borderWidth: 1,
+    borderColor: COLOR_DARKGREY,
   },
 });
 
