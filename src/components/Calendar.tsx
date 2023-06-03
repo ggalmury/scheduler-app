@@ -1,9 +1,9 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { SvgXml } from "react-native-svg";
 import moment from "moment";
-import { commonPosition } from "../styles/Common";
+import { commonFontColor, commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
 import BtnMonthSelector from "../molecules/buttons/BtnMonthSelector";
 import { createSquareDraw, reloadDraw } from "../utils/SvgSources";
@@ -18,19 +18,58 @@ interface Props {
   getSelectedDay: (day: moment.Moment) => void;
 }
 
+const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
+
 const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): ReactElement => {
   const [standardDay, setStandardDay] = useState<moment.Moment>(moment());
   const [swipeToggle, setSwipeToggle] = useState<boolean>(true);
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
 
-  const firstWeek: number = standardDay.clone().startOf("month").week();
-  const lastWeek: number = standardDay.clone().endOf("month").week() === 1 ? 53 : standardDay.clone().endOf("month").week();
-  const weekArr: number[] = Array(lastWeek - firstWeek + 1)
-    .fill(0)
-    .map((_, idx) => {
-      return idx + firstWeek;
+  const currentWeeks = useMemo((): number[] => {
+    const firstWeek: number = standardDay.clone().startOf("month").week();
+    const lastWeek: number = standardDay.clone().endOf("month").week() === 1 ? 53 : standardDay.clone().endOf("month").week();
+
+    return Array.from({ length: lastWeek - firstWeek + 1 }, (_, index) => index + firstWeek);
+  }, [standardDay]);
+
+  const currentDays = useMemo((): moment.Moment[] => {
+    const startDate: moment.Moment = standardDay.clone().startOf("month").startOf("week");
+    const endDate: moment.Moment = standardDay.clone().endOf("month").endOf("week");
+
+    let dates: moment.Moment[] = [];
+
+    for (let date = startDate.clone(); date.isSameOrBefore(endDate); date.add(1, "day")) {
+      dates.push(date.clone());
+    }
+
+    return dates;
+  }, [standardDay]);
+
+  const calendarDrawing = useMemo(() => {
+    let count = 0;
+
+    return currentWeeks.map((_, weekIdx) => {
+      return (
+        <View key={weekIdx} style={[style.row]}>
+          {Array(7)
+            .fill(0)
+            .map((_, dayIdx) => {
+              const day: moment.Moment = currentDays[count];
+              const formattedDay: number = day.date();
+              count++;
+
+              return (
+                <TouchableOpacity key={dayIdx} style={[style.dayBox, commonPosition.centering]} onPress={() => getSelectedDay(day)}>
+                  <Text style={[style.day, day.month() === standardDay.month() ? commonFontColor.black : commonFontColor.grey]}>{formattedDay}</Text>
+                  {selectedDay && dateToYMD(day) === dateToYMD(selectedDay) && <View style={[style.today, style.borderBlue]}></View>}
+                  {dateToYMD(day) === dateToYMD(moment()) && <View style={[style.today, style.borderRed]}></View>}
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+      );
     });
-  const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
+  }, [standardDay, selectedDay]);
 
   useFetchTask(standardDay, standardDay, dateToYMD(standardDay) === dateToYMD(moment()));
 
@@ -99,26 +138,7 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
               );
             })}
           </View>
-          {weekArr.map((week, weekIdx) => {
-            return (
-              <View key={weekIdx} style={[style.row]}>
-                {Array(7)
-                  .fill(0)
-                  .map((_, dayIdx) => {
-                    const day: moment.Moment = standardDay.clone().week(week).startOf("week").add(dayIdx, "day");
-                    const formattedDay: string = day.format("D");
-
-                    return (
-                      <TouchableOpacity key={dayIdx} style={[style.dayBox, commonPosition.centering]} onPress={() => getSelectedDay(day)}>
-                        <Text style={[style.day, { color: day.format("MM") === standardDay.format("MM") ? "black" : "grey" }]}>{formattedDay}</Text>
-                        {selectedDay && dateToYMD(day) === dateToYMD(selectedDay) && <View style={[style.today, style.borderBlue]}></View>}
-                        {dateToYMD(day) === dateToYMD(moment()) && <View style={[style.today, style.borderRed]}></View>}
-                      </TouchableOpacity>
-                    );
-                  })}
-              </View>
-            );
-          })}
+          {calendarDrawing}
         </View>
       </View>
     </PanGestureHandler>

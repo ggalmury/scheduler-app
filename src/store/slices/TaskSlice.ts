@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchTaskCreate, fetchTaskList } from "../../repositories/TaskRepository";
+import { Task } from "react-native";
 
-interface InitialState {}
+interface InitialState {
+  // tasks: Map<string, Task[]>;
+  // isLoading: boolean;
+}
 
 const initialState: InitialState = {};
 
@@ -14,7 +18,7 @@ const taskSlice = createSlice({
       //
     });
     builder.addCase(fetchTaskList.fulfilled, (state, action) => {
-      console.log("fetch complete!");
+      //
     });
   },
 });
