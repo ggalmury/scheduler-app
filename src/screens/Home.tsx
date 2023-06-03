@@ -1,21 +1,21 @@
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import React, { ReactElement } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { RootStackParams } from "./navigate/RootNavigation";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import { logout } from "../store/slices/MemberSlice";
 import { RootState } from "../store/RootReducer";
 import { Member } from "../types/Account";
 import { commonPosition } from "../styles/Common";
 import { dateToYMD } from "../utils/Helper";
-import moment from "moment";
+import { useFetchTask } from "../hooks/useFetchTask";
 
 const Home = (): ReactElement => {
   const dispatch = useDispatch();
 
   const member: Member = useSelector((state: RootState) => state.member);
   const isLoggedIn: boolean = useSelector((state: RootState) => state.member.isLoggedIn);
+
+  useFetchTask(moment());
 
   const gotoIndex = (): void => {
     dispatch(logout());

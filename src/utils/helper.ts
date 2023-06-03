@@ -1,5 +1,4 @@
 import { Platform } from "react-native";
-import { Note, NoteMap } from "../types/Note";
 import moment from "moment";
 
 export const isAndroid = (): boolean => {
@@ -13,16 +12,16 @@ export const svgStructure = (size: number, viewbox: number, source: string): str
   </svg>`;
 };
 
-export const convertNoteListToMap = (noteList: Note[]): NoteMap => {
-  const noteMap: NoteMap = new Map<string, Note[]>();
+// export const convertNoteListToMap = (noteList: Note[]): NoteMap => {
+//   const noteMap: NoteMap = new Map<string, Note[]>();
 
-  noteList.forEach((note) => {
-    const key: string = note.date.toString();
-    noteMap.has(key) ? noteMap.get(key)!.push(note) : noteMap.set(key, [note]);
-  });
+//   noteList.forEach((note) => {
+//     const key: string = note.date.toString();
+//     noteMap.has(key) ? noteMap.get(key)!.push(note) : noteMap.set(key, [note]);
+//   });
 
-  return noteMap;
-};
+//   return noteMap;
+// };
 
 export const dateToYMD = (moment: moment.Moment): string => {
   const formatted: string = moment.format("YYYY-MM-DD");

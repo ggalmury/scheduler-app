@@ -1,18 +1,16 @@
+import React, { ReactElement, useState } from "react";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import { SvgXml } from "react-native-svg";
 import moment from "moment";
-import React, { ReactElement, useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Text, Touchable } from "react-native";
 import { commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
 import BtnMonthSelector from "../molecules/buttons/BtnMonthSelector";
 import { createSquareDraw, reloadDraw } from "../utils/SvgSources";
 import { dateToYMD } from "../utils/Helper";
-import { SvgXml } from "react-native-svg";
 import { COLOR_RED, COLOR_SKYBLUE } from "../utils/constants/Styles";
-import { PanGestureHandler } from "react-native-gesture-handler";
 import TaskCreate from "../modals/TaskCreate";
-import { TaskListRequest } from "../types/Request";
-import { useDispatch } from "react-redux";
-import { fetchTaskList } from "../repositories/TaskRepository";
+import { useFetchTask } from "../hooks/useFetchTask";
 
 interface Props {
   bottomSheetIndex: number;
@@ -21,8 +19,6 @@ interface Props {
 }
 
 const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): ReactElement => {
-  const dispatch = useDispatch();
-
   const [standardDay, setStandardDay] = useState<moment.Moment>(moment());
   const [swipeToggle, setSwipeToggle] = useState<boolean>(true);
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
@@ -36,14 +32,7 @@ const Calendar = ({ bottomSheetIndex, selectedDay, getSelectedDay }: Props): Rea
     });
   const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 
-  useEffect(() => {
-    const startOfWeek: Date = standardDay.clone().week(firstWeek).startOf("week").toDate();
-    const endOfWeek: Date = standardDay.clone().week(lastWeek).endOf("week").toDate();
-
-    const taskListRequest: TaskListRequest = { startOfWeek, endOfWeek };
-
-    dispatch(fetchTaskList(taskListRequest) as any).then((value: any) => console.log(value.payload));
-  }, [standardDay]);
+  useFetchTask(standardDay, standardDay, dateToYMD(standardDay) === dateToYMD(moment()));
 
   const nextMonth = (): void => {
     if (swipeToggle) {

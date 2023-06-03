@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { View } from "react-native-animatable";
@@ -11,8 +11,6 @@ import TaskList from "../modals/TaskList";
 const Scheduler = (): ReactElement => {
   const [bottomSheetIndex, setBottomSheetIndex] = useState<number>(0);
   const [selectedDay, setSelectedDay] = useState<moment.Moment>(moment());
-
-  // implement task data fetching logic
 
   const getBottomSheetIndex = (index: number): void => {
     setBottomSheetIndex(index);
