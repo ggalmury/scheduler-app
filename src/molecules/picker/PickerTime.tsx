@@ -2,16 +2,16 @@ import React, { ReactElement, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { commonFontColor } from "../../styles/Common";
-import moment from "moment";
 import { commonInput } from "../../styles/Input";
 import { SvgXml } from "react-native-svg";
 import { svgStructure } from "../../utils/Helper";
 import { clockDraw } from "../../utils/SvgSources";
+import { format } from "date-fns";
 
 interface Props {
   title: string;
-  time: moment.Moment | null;
-  setTime: React.Dispatch<React.SetStateAction<moment.Moment | null>>;
+  time: Date | null;
+  setTime: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 const PickerTime = ({ title, time, setTime }: Props): ReactElement => {
@@ -22,7 +22,7 @@ const PickerTime = ({ title, time, setTime }: Props): ReactElement => {
   };
 
   const contirmTime = (value: Date): void => {
-    setTime(moment(value));
+    setTime(value);
     setOpen(false);
   };
 
@@ -35,7 +35,7 @@ const PickerTime = ({ title, time, setTime }: Props): ReactElement => {
           </View>
           <Text style={[commonFontColor.grey]}>{title}</Text>
         </View>
-        <Text>{time ? moment(time).format("A hh : mm") : "-- : --"}</Text>
+        <Text>{time ? format(time, "A hh : mm") : "-- : --"}</Text>
       </TouchableOpacity>
       <DateTimePickerModal isVisible={open} mode="time" onConfirm={contirmTime} timePickerModeAndroid="spinner" onCancel={() => setOpen(false)} />
     </>

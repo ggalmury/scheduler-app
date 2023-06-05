@@ -5,7 +5,7 @@ import BtnSubmit from "../molecules/buttons/BtnSubmit";
 import { COLOR_INDIGO, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
 import InputTask from "../molecules/inputs/InputTask";
 import { useInput } from "../hooks/useInput";
-import { dateToYMD, isAndroid, svgStructure } from "../utils/Helper";
+import { isAndroid, svgStructure } from "../utils/Helper";
 import { locationDraw, pencilDraw, tagDraw } from "../utils/SvgSources";
 import PickerTime from "../molecules/picker/PickerTime";
 import { TaskColor, TaskColorType } from "../types/Task";
@@ -13,11 +13,12 @@ import BtnColorSelector from "../molecules/buttons/BtnColorSelector";
 import { TaskCreateRequest } from "../types/Request";
 import { useDispatch } from "react-redux";
 import { fetchTaskCreate } from "../repositories/TaskRepository";
+import { format } from "date-fns";
 
 interface Props {
   toggle: boolean;
   setToggle: () => void;
-  selectedDay: moment.Moment;
+  selectedDay: Date;
 }
 
 const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => {
@@ -26,8 +27,8 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
   const [title, setTitle, resetTitle] = useInput<string>("");
   const [description, setDescription, resetDescription] = useInput<string>("");
   const [location, setLocation, resetLocation] = useInput<string>("");
-  const [startTime, setStartTime] = useState<moment.Moment | null>(null);
-  const [endTime, setEndTime] = useState<moment.Moment | null>(null);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
   const [color, setColor, resetColor] = useInput<TaskColorType>(TaskColor.color5);
 
   const resetForm = (): void => {
@@ -49,15 +50,15 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
       title,
       description,
       location,
-      date: dateToYMD(selectedDay),
+      date: selectedDay.toString(),
       time: {
         startAt: {
-          hour: parseInt(startTime.format("hh")),
-          minute: parseInt(startTime.format("mm")),
+          hour: parseInt(format(startTime, "hh")),
+          minute: parseInt(format(startTime, "mm")),
         },
         endAt: {
-          hour: parseInt(endTime.format("hh")),
-          minute: parseInt(endTime.format("mm")),
+          hour: parseInt(format(endTime, "hh")),
+          minute: parseInt(format(endTime, "mm")),
         },
       },
       privacy: "default",
@@ -99,7 +100,7 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
 const style = StyleSheet.create({
   container: {
     width: "100%",
-    height: isAndroid() ? "90%" : "85%",
+    height: isAndroid() ? "93%" : "85%",
     position: "absolute",
     bottom: 0,
     left: 0,

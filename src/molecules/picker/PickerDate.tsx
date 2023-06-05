@@ -2,11 +2,11 @@ import React, { ReactElement, useState } from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { SvgXml } from "react-native-svg";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { dateToYMD, svgStructure } from "../../utils/Helper";
+import { svgStructure } from "../../utils/Helper";
 import { commonBackgroundColor, commonPosition } from "../../styles/Common";
 import { arrowDownDraw, arrowUpDraw, emailDraw, giftDraw } from "../../utils/SvgSources";
-import moment from "moment";
 import { commonInput } from "../../styles/Input";
+import { format } from "date-fns";
 
 interface Props {
   date: Date | null;
@@ -32,7 +32,7 @@ const PickerDate = ({ date, setDate }: Props): ReactElement => {
           <SvgXml xml={svgStructure(24, 24, giftDraw)} />
         </View>
         <View style={[style.textBox]}>
-          <Text>{date ? dateToYMD(moment(date)) : "생일이 언제신가요?"}</Text>
+          <Text>{date ? format(date, "yyyy-mm-dd") : "생일이 언제신가요?"}</Text>
         </View>
         <View style={[style.svgBox, commonPosition.centering]}>
           <SvgXml xml={svgStructure(24, 24, open ? arrowUpDraw : arrowDownDraw)} />

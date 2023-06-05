@@ -3,13 +3,13 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
 import { View, Text } from "react-native-animatable";
 import { commonFontColor } from "../styles/Common";
+import { format } from "date-fns";
 
 interface Props {
-  selectedDay: moment.Moment;
-  getBottomSheetIndex: (index: number) => void;
+  selectedDay: Date;
 }
 
-const TaskList = ({ selectedDay, getBottomSheetIndex }: Props): ReactElement => {
+const TaskList = ({ selectedDay }: Props): ReactElement => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const snapPoints: string[] = ["45%", "85%"];
@@ -19,9 +19,12 @@ const TaskList = ({ selectedDay, getBottomSheetIndex }: Props): ReactElement => 
   }, []);
 
   return (
-    <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.container} snapPoints={snapPoints} enablePanDownToClose={false} onChange={getBottomSheetIndex}>
+    <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.container} snapPoints={snapPoints} enablePanDownToClose={false}>
       <View style={[style.header]}>
-        <Text style={[style.date, commonFontColor.darkgrey]}>{selectedDay.format("dddd DD")}</Text>
+        <Text style={[style.date, commonFontColor.darkgrey]}>
+          {selectedDay.toLocaleString("ko", { month: "long" })}
+          {format(selectedDay, " d일")}
+        </Text>
       </View>
     </BottomSheetModal>
   );
