@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { enableMapSet } from "immer";
 import { fetchTaskCreate, fetchTaskList } from "../../repositories/TaskRepository";
 import { listToMap } from "../handler/TaskHandler";
 import { Task } from "../../types/Task";
+
+enableMapSet();
 
 interface InitialState {
   tasks: Map<string, Task[]>;
@@ -19,7 +22,16 @@ const taskSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchTaskCreate.fulfilled, (state, action) => {
-      // implement
+      const task: Task = action.payload;
+      const key: string = task.date;
+      const taskArr: Task[] | undefined = state.tasks.get(key);
+
+      if (taskArr) {
+        taskArr.push(task);
+        state.tasks.set(key, [...taskArr]);
+      } else {
+        state.tasks.set(key, [task]);
+      }
     });
     builder.addCase(fetchTaskList.pending, (state, action) => {
       state.isLoading = true;

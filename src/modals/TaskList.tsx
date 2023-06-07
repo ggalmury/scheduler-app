@@ -12,7 +12,7 @@ interface Props {
 const TaskList = ({ selectedDay }: Props): ReactElement => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const snapPoints: string[] = ["45%", "85%"];
+  const snapPoints: string[] = ["50%", "85%"];
 
   useEffect(() => {
     bottomSheetModalRef.current?.present();

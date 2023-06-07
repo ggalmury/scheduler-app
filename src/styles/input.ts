@@ -8,7 +8,7 @@ export const commonInput = StyleSheet.create({
   },
   taskCreatorContainer: {
     flexDirection: "row",
-    height: 55,
-    marginVertical: 7,
+    height: 60,
+    marginVertical: 10,
   },
 });

@@ -1,11 +1,11 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/MemberSlice";
 import { RootState } from "../store/RootReducer";
 import { Member } from "../types/Account";
 import { commonPosition } from "../styles/Common";
-import { useFetchTask } from "../hooks/useFetchTask";
+import { fetchTaskList } from "../repositories/TaskRepository";
 
 const Home = (): ReactElement => {
   const dispatch = useDispatch();
@@ -13,7 +13,9 @@ const Home = (): ReactElement => {
   const member: Member = useSelector((state: RootState) => state.member);
   const isLoggedIn: boolean = useSelector((state: RootState) => state.member.isLoggedIn);
 
-  useFetchTask(new Date());
+  useEffect(() => {
+    dispatch(fetchTaskList() as any);
+  }, []);
 
   const gotoIndex = (): void => {
     dispatch(logout());

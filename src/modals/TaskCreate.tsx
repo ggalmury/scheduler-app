@@ -50,7 +50,7 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
       title,
       description,
       location,
-      date: selectedDay.toString(),
+      date: format(selectedDay, "yyyy-MM-dd"),
       time: {
         startAt: {
           hour: parseInt(format(startTime, "hh")),
@@ -67,8 +67,8 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
 
     dispatch(fetchTaskCreate(taskCreateRequest) as any);
 
-    // setToggle();
-    // resetForm();
+    setToggle();
+    resetForm();
   };
 
   return (
@@ -100,11 +100,12 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
 const style = StyleSheet.create({
   container: {
     width: "100%",
-    height: isAndroid() ? "93%" : "85%",
+    height: isAndroid() ? "93%" : "87%",
     position: "absolute",
     bottom: 0,
     left: 0,
     paddingHorizontal: 30,
+    paddingVertical: 30,
   },
   optionBox: {
     height: "20%",

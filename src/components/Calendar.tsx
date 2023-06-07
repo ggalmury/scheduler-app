@@ -1,13 +1,17 @@
-import React, { ReactElement, useCallback, useMemo, useState } from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { useSelector } from "react-redux";
+import Swiper from "react-native-swiper";
 import { SvgXml } from "react-native-svg";
-import { commonPosition } from "../styles/Common";
+import { addDays, addMonths, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek } from "date-fns";
+import { commonBackgroundColor, commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
 import { createSquareDraw, reloadDraw } from "../utils/SvgSources";
-import { COLOR_RED, COLOR_SKYBLUE } from "../utils/constants/Styles";
+import { COLOR_RED } from "../utils/constants/Styles";
 import TaskCreate from "../modals/TaskCreate";
-import { addDays, addMonths, endOfMonth, endOfWeek, format, getWeek, isSameDay, startOfMonth, startOfWeek, startOfYear, subMonths } from "date-fns";
-import Swiper from "react-native-swiper";
+import BtnMonthSelector from "../molecules/buttons/BtnMonthSelector";
+import { Task } from "../types/Task";
+import { RootState } from "../store/RootReducer";
 
 interface Props {
   selectedDay: Date;
@@ -16,29 +20,33 @@ interface Props {
 
 const days: string[] = ["S", "M", "T", "W", "T", "F", "S"];
 
-const RenderDays = ({ day, onPress }: { day: Date; onPress: (day: Date) => void }) => {
+const RenderDays = ({ today, day, onPress }: { today: Date; day: Date; onPress: (day: Date) => void }): ReactElement => {
+  const tasks: Task[] | undefined = useSelector((state: RootState) => state.task.tasks.get(format(day, "yyyy-MM-dd")));
+
   return (
     <TouchableOpacity key={day.getDate()} style={[style.dayBox, commonPosition.centering]} onPress={() => onPress(day)}>
       <Text style={[style.day]}>{day.getDate()}</Text>
+      {tasks && <View style={[style.taskExistDot, commonBackgroundColor.skyblue]}></View>}
+      {format(day, "yyyyMMdd") === format(today, "yyyyMMdd") && <View style={[style.today]}></View>}
     </TouchableOpacity>
   );
 };
 
-const RenderMonths = ({ initialDate, getSelectedDay }: { initialDate: Date; getSelectedDay: (day: Date) => void }) => {
-  const monthStart: Date = startOfMonth(initialDate);
-  const endStart: Date = endOfMonth(initialDate);
+const RenderMonths = ({ today, iteratorDate, getSelectedDay }: { today: Date; iteratorDate: Date; getSelectedDay: (day: Date) => void }): ReactElement => {
+  const monthStart: Date = startOfMonth(iteratorDate);
+  const endStart: Date = endOfMonth(iteratorDate);
   const startDate: Date = startOfWeek(monthStart);
   const endDate: Date = endOfWeek(endStart);
 
-  let iteratorDate: Date = startDate;
+  let iteratorDay: Date = startDate;
   let days: ReactElement[] = [];
   let weeks: ReactElement[] = [];
   let weekKey: number = 0;
 
-  while (iteratorDate <= endDate) {
+  while (iteratorDay <= endDate) {
     for (let i = 0; i < 7; i++) {
-      days.push(<RenderDays key={iteratorDate.getDate()} day={iteratorDate} onPress={getSelectedDay} />);
-      iteratorDate = addDays(iteratorDate, 1);
+      days.push(<RenderDays key={iteratorDay.getDate()} today={today} day={iteratorDay} onPress={getSelectedDay} />);
+      iteratorDay = addDays(iteratorDay, 1);
       weekKey++;
     }
 
@@ -53,18 +61,15 @@ const RenderMonths = ({ initialDate, getSelectedDay }: { initialDate: Date; getS
   }
 
   return (
-    <View key={iteratorDate.getMonth()} style={[style.calendar]}>
+    <View key={iteratorDay.getMonth()} style={[style.calendar]}>
       {weeks}
     </View>
   );
 };
 
 const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
+  const [initialDate, setIinitialDate] = useState<Date>(new Date());
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
-
-  let initialDate = useMemo<Date>(() => {
-    return new Date();
-  }, []);
 
   let iteratorDate = useMemo<Date>(() => {
     return new Date(format(initialDate, "yyyy"));
@@ -74,17 +79,19 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
     let monthArr: ReactElement[] = [];
 
     for (let i = 0; i < 12; i++) {
-      monthArr.push(<RenderMonths key={i} initialDate={iteratorDate} getSelectedDay={getSelectedDay} />);
+      monthArr.push(<RenderMonths key={i} today={initialDate} iteratorDate={iteratorDate} getSelectedDay={getSelectedDay} />);
       iteratorDate = addMonths(iteratorDate, 1);
     }
 
     return monthArr;
   }, [iteratorDate]);
 
-  // useFetchTask(standardDay, standardDay, dateToYMD(standardDay) === dateToYMD(moment()));
-
   const handleTaskCreateToggle = (): void => {
     setTaskCreateToggle(!taskCreateToggle);
+  };
+
+  const gotoCurrentMonth = (): void => {
+    setIinitialDate(new Date());
   };
 
   return (
@@ -93,13 +100,11 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
       <View style={[style.optionBox]}>
         <View style={[style.optionLeft]}>
           <TouchableOpacity onPress={() => {}}>
-            <Text style={[style.month]}>{format(iteratorDate, `yyyy년 `)}</Text>
+            <Text style={[style.currentDay]}>{format(selectedDay, "yyyy년 M월 d일")}</Text>
           </TouchableOpacity>
-          {/* {bottomSheetIndex === 0 && (
-              <View style={[style.monthSelectorBox]}>
-                <BtnMonthSelector xml={svgStructure(18, 24, reloadDraw)} onPress={currentMonth} />
-              </View>
-            )} */}
+          <View style={[style.refreshBox]}>
+            <BtnMonthSelector xml={svgStructure(18, 24, reloadDraw)} onPress={gotoCurrentMonth} />
+          </View>
         </View>
         <TouchableOpacity onPress={handleTaskCreateToggle}>
           <SvgXml xml={svgStructure(28, 24, createSquareDraw)} />
@@ -115,7 +120,7 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
             );
           })}
         </View>
-        <Swiper loop={false} loadMinimal loadMinimalSize={1} showsPagination={false}>
+        <Swiper loop={false} loadMinimal loadMinimalSize={1} showsPagination={false} index={initialDate.getMonth()}>
           {months}
         </Swiper>
       </View>
@@ -127,28 +132,32 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    position: "relative",
   },
   optionBox: {
     flexDirection: "row",
-    height: "15%",
+    height: "18%",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 15,
   },
-  monthSelectorBox: {
-    flexDirection: "row",
-    alignItems: "center",
+  calendar: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    paddingBottom: 20,
+  },
+  refreshBox: {
     marginLeft: 10,
   },
   optionLeft: {
     flexDirection: "row",
     alignItems: "center",
   },
-  calendar: {
-    flex: 1,
-    justifyContent: "space-evenly",
-    paddingBottom: 20,
+  currentDay: {
+    fontFamily: "jamsilBold",
+    fontSize: 20,
+  },
+  dayOfWeek: {
+    fontFamily: "jamsilBold",
   },
   row: {
     flexDirection: "row",
@@ -156,14 +165,6 @@ const style = StyleSheet.create({
   dayBox: {
     flex: 1,
     position: "relative",
-  },
-  month: {
-    fontFamily: "jamsilBold",
-    fontSize: 20,
-  },
-
-  dayOfWeek: {
-    fontFamily: "jamsilBold",
   },
   day: {
     fontFamily: "jamsilRegular",
@@ -174,12 +175,15 @@ const style = StyleSheet.create({
     position: "absolute",
     borderRadius: 5,
     borderWidth: 1,
-  },
-  borderRed: {
     borderColor: COLOR_RED,
   },
-  borderBlue: {
-    borderColor: COLOR_SKYBLUE,
+  taskExistDot: {
+    position: "absolute",
+    top: "120%",
+    left: "43%",
+    borderRadius: 50,
+    width: 7,
+    height: 7,
   },
 });
 

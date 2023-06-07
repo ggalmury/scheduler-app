@@ -6,7 +6,7 @@ import customAxiosRequest from "../config/AxiosInterceptor";
 import { SERVERPATH } from "../utils/constants/Global";
 
 export const fetchTaskList = createAsyncThunk("task/list", async (): Promise<Task[]> => {
-  const response: AxiosResponse = await customAxiosRequest.post(`${SERVERPATH}/task/list`);
+  const response: AxiosResponse = await customAxiosRequest.get(`${SERVERPATH}/task/list`);
   const result = response.data;
 
   return result;

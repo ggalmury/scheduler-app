@@ -11,7 +11,6 @@ const Scheduler = (): ReactElement => {
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 
   const getSelectedDay = useCallback((day: Date): void => {
-    console.log(day);
     setSelectedDay(day);
   }, []);
 
