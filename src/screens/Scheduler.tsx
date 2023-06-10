@@ -6,6 +6,7 @@ import Constants from "expo-constants";
 import Calendar from "../components/Calendar";
 import { isAndroid } from "../utils/Helper";
 import TaskList from "../modals/TaskList";
+import { commonBackgroundColor } from "../styles/Common";
 
 const Scheduler = (): ReactElement => {
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
@@ -16,7 +17,7 @@ const Scheduler = (): ReactElement => {
 
   return (
     <BottomSheetModalProvider>
-      <SafeAreaView style={[style.container]}>
+      <SafeAreaView style={[style.container, commonBackgroundColor.indigo]}>
         <View style={[style.calendar]}>
           <Calendar selectedDay={selectedDay} getSelectedDay={getSelectedDay} />
         </View>

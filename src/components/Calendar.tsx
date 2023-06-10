@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Swiper from "react-native-swiper";
 import { SvgXml } from "react-native-svg";
 import { addDays, addMonths, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek } from "date-fns";
-import { commonBackgroundColor, commonPosition } from "../styles/Common";
+import { commonBackgroundColor, commonFontColor, commonPosition } from "../styles/Common";
 import { svgStructure } from "../utils/Helper";
 import { createSquareDraw, reloadDraw } from "../utils/SvgSources";
 import { COLOR_RED } from "../utils/constants/Styles";
@@ -25,7 +25,7 @@ const RenderDays = ({ today, day, onPress }: { today: Date; day: Date; onPress: 
 
   return (
     <TouchableOpacity key={day.getDate()} style={[style.dayBox, commonPosition.centering]} onPress={() => onPress(day)}>
-      <Text style={[style.day]}>{day.getDate()}</Text>
+      <Text style={[style.day, commonFontColor.white]}>{day.getDate()}</Text>
       {tasks && <View style={[style.taskExistDot, commonBackgroundColor.skyblue]}></View>}
       {format(day, "yyyyMMdd") === format(today, "yyyyMMdd") && <View style={[style.today]}></View>}
     </TouchableOpacity>
@@ -70,6 +70,7 @@ const RenderMonths = ({ today, iteratorDate, getSelectedDay }: { today: Date; it
 const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
   const [initialDate, setIinitialDate] = useState<Date>(new Date());
   const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
+  const [watchingMonth, setWatchingMonth] = useState<number>(initialDate.getMonth() + 1);
 
   let iteratorDate = useMemo<Date>(() => {
     return new Date(format(initialDate, "yyyy"));
@@ -94,13 +95,17 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
     setIinitialDate(new Date());
   };
 
+  const getWatchingMonth = (index: number): void => {
+    setWatchingMonth(index + 1);
+  };
+
   return (
     <View style={[style.container]}>
       <TaskCreate toggle={taskCreateToggle} setToggle={handleTaskCreateToggle} selectedDay={selectedDay} />
       <View style={[style.optionBox]}>
         <View style={[style.optionLeft]}>
           <TouchableOpacity onPress={() => {}}>
-            <Text style={[style.currentDay]}>{format(selectedDay, "yyyy년 M월 d일")}</Text>
+            <Text style={[style.currentDay, commonFontColor.white]}>{format(selectedDay, `yyyy년 ${watchingMonth}월`)}</Text>
           </TouchableOpacity>
           <View style={[style.refreshBox]}>
             <BtnMonthSelector xml={svgStructure(18, 24, reloadDraw)} onPress={gotoCurrentMonth} />
@@ -115,12 +120,12 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
           {days.map((day, idx) => {
             return (
               <View key={idx} style={[style.dayBox, commonPosition.centering]}>
-                <Text style={[style.dayOfWeek]}>{day}</Text>
+                <Text style={[style.dayOfWeek, commonFontColor.white]}>{day}</Text>
               </View>
             );
           })}
         </View>
-        <Swiper loop={false} loadMinimal loadMinimalSize={1} showsPagination={false} index={initialDate.getMonth()}>
+        <Swiper loop={false} loadMinimal loadMinimalSize={1} showsPagination={false} index={initialDate.getMonth()} onIndexChanged={getWatchingMonth}>
           {months}
         </Swiper>
       </View>

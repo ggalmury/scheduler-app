@@ -1,8 +1,8 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import { commonBackgroundColor } from "../styles/Common";
 import BtnSubmit from "../molecules/buttons/BtnSubmit";
-import { COLOR_INDIGO, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
+import { COLOR_INDIGO, COLOR_TASK_1, COLOR_TASK_2, COLOR_TASK_3, COLOR_TASK_4, COLOR_TASK_5, COLOR_TASK_6, COLOR_TASK_7, COLOR_TOMATO, COLOR_WHITE } from "../utils/constants/Styles";
 import InputTask from "../molecules/inputs/InputTask";
 import { useInput } from "../hooks/useInput";
 import { isAndroid, svgStructure } from "../utils/Helper";
@@ -29,7 +29,11 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
   const [location, setLocation, resetLocation] = useInput<string>("");
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
-  const [color, setColor, resetColor] = useInput<TaskColorType>(TaskColor.color5);
+  const [color, setColor, resetColor] = useInput<TaskColorType>(TaskColor.color1);
+
+  const colorList = useMemo<string[]>(() => {
+    return [COLOR_TASK_1, COLOR_TASK_2, COLOR_TASK_3, COLOR_TASK_4, COLOR_TASK_5, COLOR_TASK_6, COLOR_TASK_7];
+  }, []);
 
   const resetForm = (): void => {
     resetTitle();
@@ -55,10 +59,12 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
         startAt: {
           hour: parseInt(format(startTime, "hh")),
           minute: parseInt(format(startTime, "mm")),
+          period: format(startTime, "a"),
         },
         endAt: {
           hour: parseInt(format(endTime, "hh")),
           minute: parseInt(format(endTime, "mm")),
+          period: format(endTime, "a"),
         },
       },
       privacy: "default",
@@ -80,10 +86,9 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
         <View style={[style.optionBox]}>
           <Text style={[style.titleText]}>색상</Text>
           <View style={[style.colorBox]}>
-            <BtnColorSelector backgroundColor={TaskColor.color1} color={color} setColor={setColor} />
-            <BtnColorSelector backgroundColor={TaskColor.color2} color={color} setColor={setColor} />
-            <BtnColorSelector backgroundColor={TaskColor.color3} color={color} setColor={setColor} />
-            <BtnColorSelector backgroundColor={TaskColor.color4} color={color} setColor={setColor} />
+            {colorList.map((value, idx) => {
+              return <BtnColorSelector key={idx} backgroundColor={value} color={color} setColor={setColor} />;
+            })}
           </View>
         </View>
         <InputTask placeholder="메모" value={description} onChangeText={setDescription} svg={svgStructure(20, 24, pencilDraw)} />
