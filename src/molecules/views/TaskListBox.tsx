@@ -3,12 +3,14 @@ import { StyleSheet } from "react-native";
 import { View, Text } from "react-native-animatable";
 import { commonBackgroundColor, commonFontColor } from "../../styles/Common";
 import { Task } from "../../types/Task";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props {
   task: Task;
+  modalOn: (task: Task) => void;
 }
 
-const TaskListBox = ({ task }: Props): ReactElement => {
+const TaskListBox = ({ task, modalOn }: Props): ReactElement => {
   return (
     <View style={[style.container]}>
       <View style={[style.dateBox]}>
@@ -23,8 +25,10 @@ const TaskListBox = ({ task }: Props): ReactElement => {
         </View>
       </View>
       <View style={[style.taskBox, { backgroundColor: task.color }]}>
-        <Text style={[style.titleText, commonFontColor.white]}>{task.title}</Text>
-        <Text style={[style.descriptionText, commonFontColor.white]}>{task.description}</Text>
+        <TouchableOpacity onPress={() => modalOn(task)}>
+          <Text style={[style.titleText, commonFontColor.white]}>{task.title}</Text>
+          <Text style={[style.descriptionText, commonFontColor.white]}>{task.description}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -33,8 +37,8 @@ const TaskListBox = ({ task }: Props): ReactElement => {
 const style = StyleSheet.create({
   container: {
     flexDirection: "row",
-    height: 75,
-    paddingVertical: 5,
+    height: 65,
+    marginVertical: 10,
     justifyContent: "space-evenly",
   },
   dateBox: {
@@ -51,7 +55,7 @@ const style = StyleSheet.create({
   taskBox: {
     flex: 1,
     justifyContent: "space-evenly",
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     borderRadius: 10,
   },
   dateText: {
@@ -60,7 +64,7 @@ const style = StyleSheet.create({
   },
   titleText: {
     fontFamily: "jamsilRegular",
-    fontSize: 20,
+    fontSize: 18,
   },
   descriptionText: {
     fontFamily: "jamsilRegular",
