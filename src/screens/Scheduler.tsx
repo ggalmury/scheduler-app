@@ -3,7 +3,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { View } from "react-native-animatable";
 import Constants from "expo-constants";
-import Calendar from "../components/Calendar";
+import Calendar from "../components/calendar/Calendar";
 import { isAndroid } from "../utils/Helper";
 import TaskList from "../modals/TaskList";
 import { commonBackgroundColor } from "../styles/Common";

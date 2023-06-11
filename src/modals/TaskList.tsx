@@ -1,16 +1,19 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { StyleSheet } from "react-native";
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "react-native-animatable";
-import { commonFontColor } from "../styles/Common";
+import { commonFontColor, commonPosition } from "../styles/Common";
 import { format } from "date-fns";
 import { Task } from "../types/Task";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/RootReducer";
 import TaskListBox from "../molecules/views/TaskListBox";
-import { FlatList } from "react-native-gesture-handler";
 import { ko } from "date-fns/locale";
 import TaskDetail from "./TaskDetail";
+import TaskCreate from "./TaskCreate";
+import { SvgXml } from "react-native-svg";
+import { svgStructure } from "../utils/Helper";
+import { createSquareDraw, sadDraw } from "../utils/SvgSources";
 
 interface Props {
   selectedDay: Date;
@@ -21,10 +24,13 @@ const TaskList = ({ selectedDay }: Props): ReactElement => {
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [taskCreateToggle, setTaskCreateToggle] = useState<boolean>(false);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const snapPoints: string[] = ["50%", "85%"];
+  const snapPoints = useMemo<string[]>(() => {
+    return selectDayTasks ? ["50%", "85%"] : ["50%"];
+  }, [selectDayTasks]);
 
   useEffect(() => {
     bottomSheetModalRef.current?.present();
@@ -43,16 +49,33 @@ const TaskList = ({ selectedDay }: Props): ReactElement => {
     setSelectedTask(null);
   };
 
+  const handleTaskCreateToggle = (): void => {
+    setTaskCreateToggle(!taskCreateToggle);
+  };
+
   return (
-    <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.modal} snapPoints={snapPoints} enablePanDownToClose={false}>
-      <TaskDetail isVisible={modalVisible} onBackdropPress={modalOff} onModalHide={resetTaskToModal} selectedTask={selectedTask} />
-      <View style={[style.container]}>
-        <View style={[style.header]}>
-          <Text style={[style.date, commonFontColor.darkgrey]}>{format(selectedDay, "M월 d일 eeee", { locale: ko })}</Text>
+    <>
+      <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.modal} snapPoints={snapPoints} enablePanDownToClose={false}>
+        <TaskDetail isVisible={modalVisible} onBackdropPress={modalOff} onModalHide={resetTaskToModal} selectedTask={selectedTask} />
+        <View style={[style.container]}>
+          <View style={[style.header]}>
+            <Text style={[style.date, commonFontColor.darkgrey]}>{format(selectedDay, "M월 d일 eeee", { locale: ko })}</Text>
+            <TouchableOpacity onPress={handleTaskCreateToggle}>
+              <SvgXml xml={svgStructure(28, 24, createSquareDraw)} />
+            </TouchableOpacity>
+          </View>
+          {selectDayTasks ? (
+            <BottomSheetFlatList data={selectDayTasks} renderItem={({ item }: any) => <TaskListBox task={item} modalOn={modalOn} />} keyExtractor={(item) => item.taskId.toString()} />
+          ) : (
+            <View style={[style.notFound, commonPosition.centering]}>
+              <SvgXml xml={svgStructure(24, 24, sadDraw)} />
+              <Text style={[style.noTaskText, commonFontColor.grey]}>일정이 없어요</Text>
+            </View>
+          )}
         </View>
-        <FlatList data={selectDayTasks} renderItem={({ item }: any) => <TaskListBox task={item} modalOn={modalOn} />} keyExtractor={(item) => item.taskId.toString()} />
-      </View>
-    </BottomSheetModal>
+      </BottomSheetModal>
+      <TaskCreate toggle={taskCreateToggle} setToggle={handleTaskCreateToggle} selectedDay={selectedDay} />
+    </>
   );
 };
 
@@ -66,8 +89,10 @@ const style = StyleSheet.create({
     paddingHorizontal: 15,
   },
   header: {
+    flexDirection: "row",
     height: 50,
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 12,
   },
   body: {
@@ -76,6 +101,15 @@ const style = StyleSheet.create({
   date: {
     fontFamily: "jamsilBold",
     fontSize: 16,
+  },
+  notFound: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  noTaskText: {
+    fontFamily: "jamsilBold",
+    fontSize: 16,
+    marginHorizontal: 10,
   },
 });
 

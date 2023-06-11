@@ -150,3 +150,21 @@ export const locationDraw: string = `<g id="Navigation / Map_Pin">
 export const clockDraw: string = `<g id="Calendar / Clock">
 <path id="Vector" d="M12 7V12H17M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 </g>`;
+
+// vb: 24
+export const logoutDraw: string = `<g id="Interface / Log_Out">
+<path id="Vector" d="M12 15L15 12M15 12L12 9M15 12H4M9 7.24859V7.2002C9 6.08009 9 5.51962 9.21799 5.0918C9.40973 4.71547 9.71547 4.40973 10.0918 4.21799C10.5196 4 11.0801 4 12.2002 4H16.8002C17.9203 4 18.4796 4 18.9074 4.21799C19.2837 4.40973 19.5905 4.71547 19.7822 5.0918C20 5.5192 20 6.07899 20 7.19691V16.8036C20 17.9215 20 18.4805 19.7822 18.9079C19.5905 19.2842 19.2837 19.5905 18.9074 19.7822C18.48 20 17.921 20 16.8031 20H12.1969C11.079 20 10.5192 20 10.0918 19.7822C9.71547 19.5905 9.40973 19.2839 9.21799 18.9076C9 18.4798 9 17.9201 9 16.8V16.75" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+</g>`;
+
+// vb: 24
+export const sadDraw: string = `<g clip-path="url(#clip0_443_3604)">
+<circle cx="12" cy="12" r="9" stroke="#828282" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+<circle cx="9.5" cy="9.5" r="1.5" fill="#828282"/>
+<circle cx="14.5" cy="9.5" r="1.5" fill="#828282"/>
+<path d="M7.53803 15.6064C8.79314 14.5681 10.3711 14 12 14C13.6289 14 15.2069 14.5681 16.462 15.6064" stroke="#828282" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_443_3604">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>`;
