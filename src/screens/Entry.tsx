@@ -21,7 +21,7 @@ const Entry = (): ReactElement => {
 
   useEffect(() => {
     setTimeout(() => {
-      isLoggedIn ? navigation.replace("HomeNavigation") : navigation.replace("Index");
+      isLoggedIn ? navigation.replace("Scheduler") : navigation.replace("Index");
     }, 1500);
   }, []);
 

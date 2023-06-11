@@ -1,14 +1,13 @@
 import React, { ReactElement } from "react";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigationOptions, createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import Index from "../Index";
-import Home from "../Home";
 import Entry from "../Entry";
 import Login from "../Login";
 import RegisterF from "../RegisterF";
 import RegisterS from "../RegisterS";
-import HomeNavigation from "./HomeNavigation";
+import Scheduler from "../Scheduler";
 
 export type RootStackParams = {
   Entry: undefined;
@@ -16,7 +15,7 @@ export type RootStackParams = {
   Login: undefined;
   RegisterF: undefined;
   RegisterS: undefined;
-  HomeNavigation: undefined;
+  Scheduler: undefined;
 };
 
 const RootStack = createStackNavigator<RootStackParams>();
@@ -45,7 +44,7 @@ const RootNavigation = (): ReactElement => {
         <RootStack.Screen name="Login" component={Login} options={defaultHeaderOptions} />
         <RootStack.Screen name="RegisterF" component={RegisterF} options={defaultHeaderOptions} />
         <RootStack.Screen name="RegisterS" component={RegisterS} options={defaultHeaderOptions} />
-        <RootStack.Screen name="HomeNavigation" component={HomeNavigation} options={{ headerShown: false }} />
+        <RootStack.Screen name="Scheduler" component={Scheduler} options={{ headerShown: false }} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

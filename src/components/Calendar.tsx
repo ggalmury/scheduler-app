@@ -25,7 +25,7 @@ const RenderDays = ({ today, day, onPress }: { today: Date; day: Date; onPress: 
 
   return (
     <TouchableOpacity key={day.getDate()} style={[style.dayBox, commonPosition.centering]} onPress={() => onPress(day)}>
-      <Text style={[style.day, commonFontColor.white]}>{day.getDate()}</Text>
+      <Text style={[style.day, commonFontColor.black]}>{day.getDate()}</Text>
       {tasks && <View style={[style.taskExistDot, commonBackgroundColor.skyblue]}></View>}
       {format(day, "yyyyMMdd") === format(today, "yyyyMMdd") && <View style={[style.today]}></View>}
     </TouchableOpacity>
@@ -105,7 +105,7 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
       <View style={[style.optionBox]}>
         <View style={[style.optionLeft]}>
           <TouchableOpacity onPress={() => {}}>
-            <Text style={[style.currentDay, commonFontColor.white]}>{format(selectedDay, `yyyy년 ${watchingMonth}월`)}</Text>
+            <Text style={[style.currentDay, commonFontColor.black]}>{format(selectedDay, `yyyy년 ${watchingMonth}월`)}</Text>
           </TouchableOpacity>
           <View style={[style.refreshBox]}>
             <BtnMonthSelector xml={svgStructure(18, 24, reloadDraw)} onPress={gotoCurrentMonth} />
@@ -120,7 +120,7 @@ const Calendar = ({ selectedDay, getSelectedDay }: Props): ReactElement => {
           {days.map((day, idx) => {
             return (
               <View key={idx} style={[style.dayBox, commonPosition.centering]}>
-                <Text style={[style.dayOfWeek, commonFontColor.white]}>{day}</Text>
+                <Text style={[style.dayOfWeek]}>{day}</Text>
               </View>
             );
           })}

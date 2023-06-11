@@ -32,17 +32,20 @@ const TaskList = ({ selectedDay }: Props): ReactElement => {
 
   const modalOff = (): void => {
     setModalVisible(false);
-    setSelectedTask(null);
   };
 
   const modalOn = (task: Task): void => {
-    setModalVisible(true);
     setSelectedTask(task);
+    setModalVisible(true);
+  };
+
+  const resetTaskToModal = (): void => {
+    setSelectedTask(null);
   };
 
   return (
     <BottomSheetModal ref={bottomSheetModalRef} backgroundStyle={style.modal} snapPoints={snapPoints} enablePanDownToClose={false}>
-      <TaskDetail modalVisible={modalVisible} modalOff={modalOff} selectedTask={selectedTask} />
+      <TaskDetail isVisible={modalVisible} onBackdropPress={modalOff} onModalHide={resetTaskToModal} selectedTask={selectedTask} />
       <View style={[style.container]}>
         <View style={[style.header]}>
           <Text style={[style.date, commonFontColor.darkgrey]}>{format(selectedDay, "M월 d일 eeee", { locale: ko })}</Text>

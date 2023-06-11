@@ -25,7 +25,7 @@ const Login = (): ReactElement => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
-    isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "HomeNavigation" }] });
+    isLoggedIn && navigation.reset({ index: 0, routes: [{ name: "Scheduler" }] });
   }, [isLoggedIn]);
 
   const loginDone = async (): Promise<void> => {
