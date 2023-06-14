@@ -18,3 +18,10 @@ export const fetchTaskCreate = createAsyncThunk("task/create", async (taskCreate
 
   return result;
 });
+
+export const fetchTaskDelete = createAsyncThunk("task/delete", async (taskId: number): Promise<Task> => {
+  const response: AxiosResponse = await customAxiosRequest.post(`${SERVERPATH}/task/delete`, { taskId });
+  const result = response.data;
+
+  return result;
+});

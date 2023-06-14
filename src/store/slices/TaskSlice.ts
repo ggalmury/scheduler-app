@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { enableMapSet } from "immer";
-import { fetchTaskCreate, fetchTaskList } from "../../repositories/TaskRepository";
+import { fetchTaskCreate, fetchTaskDelete, fetchTaskList } from "../../repositories/TaskRepository";
 import { listToMap } from "../handler/TaskHandler";
 import { Task } from "../../types/Task";
 
@@ -42,6 +42,20 @@ const taskSlice = createSlice({
 
       state.tasks = taskMap;
       state.isLoading = false;
+    });
+    builder.addCase(fetchTaskDelete.fulfilled, (state, action) => {
+      const task: Task = action.payload;
+      const key: string = task.date;
+
+      const oldTasks: Task[] = state.tasks.get(key) ?? [];
+      const newTasks: Task[] = oldTasks.filter((t) => t.taskId !== task.taskId);
+
+      if (newTasks.length === 0) {
+        state.tasks.delete(key);
+        return;
+      }
+
+      state.tasks.set(key, newTasks);
     });
   },
 });

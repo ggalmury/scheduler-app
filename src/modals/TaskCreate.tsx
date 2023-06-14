@@ -50,6 +50,11 @@ const TaskCreate = ({ toggle, setToggle, selectedDay }: Props): ReactElement => 
       return;
     }
 
+    if (startTime > endTime) {
+      Alert.alert("시작 시간이 종료 시간보다 늦습니다");
+      return;
+    }
+
     const taskCreateRequest: TaskCreateRequest = {
       title,
       description,

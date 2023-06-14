@@ -1,15 +1,14 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SafeAreaView, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { View } from "react-native-animatable";
 import Constants from "expo-constants";
 import Calendar from "../components/calendar/Calendar";
 import { isAndroid } from "../utils/Helper";
 import TaskList from "../modals/TaskList";
 import { commonBackgroundColor } from "../styles/Common";
-import { useDispatch } from "react-redux";
 import { fetchTaskList } from "../repositories/TaskRepository";
-import { useSelector } from "react-redux";
 import { RootState } from "../store/RootReducer";
 import Loading from "./Loading";
 

@@ -36,13 +36,7 @@ const Index = (): ReactElement => {
           <BtnSubmit name="회원가입" backgroundColor={COLOR_IVORY} color={COLOR_BLACK} width={250} onPress={gotoRegister} />
         </View>
         <View style={[style.socialLoginBox, commonPosition.centering]}>
-          <BtnSocialLogin
-            xml={svgStructure(21, 512, kakaoDraw)}
-            backgroundColor={COLOR_KAKAO}
-            onPress={() => {
-              navigation.navigate("HomeNavigation");
-            }}
-          />
+          <BtnSocialLogin xml={svgStructure(21, 512, kakaoDraw)} backgroundColor={COLOR_KAKAO} onPress={() => {}} />
           <BtnSocialLogin xml={svgStructure(18, 512, naverDraw)} backgroundColor={COLOR_NAVER} onPress={() => {}} />
           <BtnSocialLogin xml={svgStructure(28, 16, googleDraw)} backgroundColor={COLOR_IVORY} onPress={() => {}} />
           <BtnSocialLogin xml={svgStructure(18, 24, facebookDraw)} backgroundColor={COLOR_FACEBOOK} onPress={() => {}} />

@@ -1,11 +1,11 @@
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { View, Text } from "react-native-animatable";
-import { commonFontColor, commonPosition } from "../styles/Common";
-import { format } from "date-fns";
-import { Task } from "../types/Task";
 import { useSelector } from "react-redux";
+import { View, Text } from "react-native-animatable";
+import { format } from "date-fns";
+import { commonFontColor, commonPosition } from "../styles/Common";
+import { Task } from "../types/Task";
 import { RootState } from "../store/RootReducer";
 import TaskListBox from "../molecules/views/TaskListBox";
 import { ko } from "date-fns/locale";
